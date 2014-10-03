@@ -1,9 +1,12 @@
 package com.garciaericn.mediaplayer;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 
 public class MainActivity extends Activity {
@@ -12,6 +15,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String demoVideoString = "android.resource://" + getPackageName() + "/" + R.raw.demo;
+
+        VideoView vv = (VideoView)findViewById(R.id.video_view);
+        vv.setVideoURI(Uri.parse(demoVideoString));
+        vv.setMediaController(new MediaController(this));
+        vv.start();
     }
 
 
