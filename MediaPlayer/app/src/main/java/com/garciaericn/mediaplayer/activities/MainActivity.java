@@ -1,4 +1,4 @@
-package com.garciaericn.mediaplayer;
+package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.garciaericn.mediaplayer.R;
 
 
 public class MainActivity extends Activity {
