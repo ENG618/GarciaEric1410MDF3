@@ -5,11 +5,12 @@ Full Sail | MDVBS
 * 1410 MDF 3
 * [Project git repo](https://github.com/ENG618/GarciaEric1410MDF3)
 
-Week 1: Sercive Fundamentals Part 1
+Week 1: Service Fundamentals Part 1
 * Due 10/5
+* [Project 1](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
 * [Video review - to be posted](http:templink)
 
-Week 2: Sercive Fundamentals Part 2
+Week 2: Service Fundamentals Part 2
 * Due 10/9
 * [Video review - to be posted](http:templink)
 
