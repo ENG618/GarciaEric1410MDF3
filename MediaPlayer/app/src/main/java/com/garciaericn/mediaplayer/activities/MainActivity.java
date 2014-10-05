@@ -1,6 +1,7 @@
 package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.garciaericn.mediaplayer.R;
+import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
+import com.garciaericn.mediaplayer.fragments.VideoPlayerFragment;
 
 
 public class MainActivity extends Activity {
@@ -17,6 +20,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getFragmentManager();
+
+        fm.beginTransaction()
+                .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
+                .commit();
+
+        fm.beginTransaction()
+                .replace(R.id.video_player_container, VideoPlayerFragment.newInstance(), VideoPlayerFragment.TAG)
+                .commit();
 
         String demoVideoString = "android.resource://" + getPackageName() + "/" + R.raw.demo;
 
