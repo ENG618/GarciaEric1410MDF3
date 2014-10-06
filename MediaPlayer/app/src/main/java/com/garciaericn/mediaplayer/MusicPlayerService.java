@@ -27,7 +27,18 @@ public class MusicPlayerService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        musicPlayerBinder = new MusicPlayerBinder();
+/*
+        currentSong = 0;
+
+        songsArray = new ArrayList<Song>();
+
+        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod"));
+        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod"));
+        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
+*/
+
+
+//        musicPlayerBinder = new MusicPlayerBinder();
         Toast.makeText(this, "Service Created", Toast.LENGTH_SHORT).show();
     }
 

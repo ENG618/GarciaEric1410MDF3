@@ -122,16 +122,4 @@ public class MainActivity extends Activity
         musicPlayerService = null;
         mBound = false;
     }
-
-    /**
-     * AudioPlayer Callback
-     */
-/*
-    @Override
-    public void playSong() {
-        Log.i(TAG, "playSong in activity entered");
-        Intent intent = new Intent(this, MusicPlayerService.class);
-        bindService(intent, this, BIND_AUTO_CREATE);
-    }
-*/
 }
