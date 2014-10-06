@@ -1,7 +1,9 @@
 package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -19,12 +21,11 @@ import com.garciaericn.mediaplayer.fragments.VideoPlayerFragment;
 
 public class MainActivity extends Activity
     implements AVOptionsFragment.AVOptionsFragmentCallbacks,
-        AudioPlayerFragment.AudioPlayerCallback,
         ServiceConnection{
 
     private static final String TAG = "MainActivity.TAG";
     private String packageName;
-    MusicPlayerService mService;
+    MusicPlayerService musicPlayerService;
     boolean mBound;
 
     @Override
@@ -56,6 +57,19 @@ public class MainActivity extends Activity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Song Licences")
+                    .setMessage("Blown Away by Kevin MacLeod is licensed under CC Attribution 3.0. \n" +"http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200100 \n\n" +
+                    "Carefree by Kevin MacLeod is licensed under CC Attribution 3.0. \n" + "http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037. \n\n" +
+                    "Master of the Feast by Kevin MacLeod is licensed under CC Attribution 3.0.\n" + "http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400019.")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -64,6 +78,7 @@ public class MainActivity extends Activity
     /**
      * AVOptionsFragmentCallbacks Methods
      */
+
     @Override
     public void loadAudio() {
         Log.i(TAG, "loadAudio entered");
@@ -94,86 +109,29 @@ public class MainActivity extends Activity
     * Service Binder Methods
     */
 
-/*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, MusicPlayerService.class);
-        bindService(intent, this, BIND_AUTO_CREATE);
-    }
-*/
-
-/*
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mBound) {
-            unbindService(this);
-
-*/
-/*
-            // Backup in case the service was started and not stopped.
-            // Not needed if only binding was used.
-            Intent intent = new Intent(this, MusicPlayerService.class);
-            stopService(intent);
-*//*
-
-        }
-    }
-*/
-
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
-        mService = binder.getService();
+        musicPlayerService = binder.getService();
         mBound = true;
-        mService.showToastFromService();
+        musicPlayerService.showToastFromService();
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        mService = null;
+        musicPlayerService = null;
         mBound = false;
     }
 
     /**
      * AudioPlayer Callback
      */
+/*
     @Override
     public void playSong() {
         Log.i(TAG, "playSong in activity entered");
         Intent intent = new Intent(this, MusicPlayerService.class);
         bindService(intent, this, BIND_AUTO_CREATE);
     }
-
-    @Override
-    public void pauseSong() {
-        Log.i(TAG, "pauseSong in activity entered");
-    }
-
-    @Override
-    public void stopSong() {
-        Log.i(TAG, "stopSong in activity entered");
-        if (mBound) {
-            unbindService(this);
-
-/*
-            // Backup in case the service was started and not stopped.
-            // Not needed if only binding was used.
-            Intent intent = new Intent(this, MusicPlayerService.class);
-            stopService(intent);
 */
-        }
-    }
-
-    @Override
-    public void previousSong() {
-        Log.i(TAG, "previousSong in activity entered");
-
-    }
-
-    @Override
-    public void nextSong() {
-        Log.i(TAG, "nextSong in activity entered");
-    }
 }

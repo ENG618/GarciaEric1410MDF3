@@ -11,5 +11,7 @@
     <string name="button_stop">Stop</string>
     <string name="button_play">Play</string>
     <string name="button_previous">Previous</string>
+    <string name="label_author">Author: </string>
+    <string name="label_title">Song Title: </string>
 
 </resources>

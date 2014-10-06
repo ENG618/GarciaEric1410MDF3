@@ -14,11 +14,51 @@
         android:padding="10dp"
         android:layout_gravity="center_horizontal" />
 
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:padding="10dp">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_title"
+                android:id="@+id/titleLabel" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:id="@+id/titleTV"
+                android:paddingLeft="5dp" />
+        </TableRow>
+
+        <TableRow android:padding="10dp">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_author"
+                android:id="@+id/authorLabel" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:id="@+id/authorTV"
+                android:paddingLeft="5dp" />
+        </TableRow>
+
+        </TableLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" >
 
         <ImageButton
             style="?android:attr/buttonStyleSmall"
@@ -45,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:src="@drawable/ic_action_play"
+            android:src="@drawable/ic_action_pause"
             android:contentDescription="@string/button_play"
             android:id="@+id/playButton"
             android:background="@android:color/background_dark" />
