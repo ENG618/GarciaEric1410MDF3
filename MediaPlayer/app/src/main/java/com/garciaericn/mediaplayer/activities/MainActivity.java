@@ -1,7 +1,6 @@
 package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,6 +8,7 @@ import android.view.MenuItem;
 
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
+import com.garciaericn.mediaplayer.fragments.AudioPlayerFragment;
 import com.garciaericn.mediaplayer.fragments.VideoPlayerFragment;
 
 
@@ -22,14 +22,11 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fm = getFragmentManager();
-
-        fm.beginTransaction()
+        // Load AV options fragment
+        getFragmentManager()
+                .beginTransaction()
                 .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
                 .commit();
-
-
-
     }
 
 
@@ -56,19 +53,23 @@ public class MainActivity extends Activity
     public void loadAudio() {
         Log.i(TAG, "loadAudio entered");
 
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.player_container, AudioPlayerFragment.newInstance(), AudioPlayerFragment.TAG)
+                .commit();
+
+
     }
 
     @Override
     public void loadVideo() {
         Log.i(TAG, "loadVideo entered");
 
-        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
-
         String packageName = getPackageName();
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
+                .replace(R.id.player_container, VideoPlayerFragment.newInstance(packageName), VideoPlayerFragment.TAG)
                 .commit();
     }
 }

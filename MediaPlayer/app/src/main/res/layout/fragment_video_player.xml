@@ -4,7 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".VideoPlayerFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/title_video_player"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/titleVideoPlayer" />
 
     <VideoView android:id="@+id/video_view"
         android:layout_width="fill_parent"

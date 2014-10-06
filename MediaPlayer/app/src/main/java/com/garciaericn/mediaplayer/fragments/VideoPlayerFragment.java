@@ -1,7 +1,6 @@
 package com.garciaericn.mediaplayer.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +27,7 @@ public class VideoPlayerFragment extends Fragment {
 
     }
 
-    public VideoPlayerFragment newInstance(String packageName) {
+    public static VideoPlayerFragment newInstance(String packageName) {
         VideoPlayerFragment.packageName = packageName;
 
         VideoPlayerFragment vpf = new VideoPlayerFragment();

@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="button_audio">Audio</string>
     <string name="button_video">Video</string>
+    <string name="title_video_player">Video Player</string>
+    <string name="title_audio_player">Audio Player</string>
 
 </resources>
