@@ -1,12 +1,12 @@
 package com.garciaericn.mediaplayer.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.garciaericn.mediaplayer.R;
@@ -23,6 +23,15 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     private static String packageName;
     private static boolean isPlaying;
     private static AudioPlayerFragment audioPlayerFragment;
+    private AudioPlayerCallback activity;
+
+    public interface AudioPlayerCallback {
+        public void playSong();
+        public void pauseSong();
+        public void stopSong();
+        public void previousSong();
+        public void nextSong();
+    }
 
     public AudioPlayerFragment() {
 
@@ -30,7 +39,6 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
 
     public static AudioPlayerFragment newInstance(String packageName) {
         AudioPlayerFragment.packageName = packageName;
-        AudioPlayerFragment.isPlaying = true;
 
         if (audioPlayerFragment == null) {
             audioPlayerFragment = new AudioPlayerFragment();
@@ -63,6 +71,17 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (AudioPlayerCallback) activity;
+
+        if (!(AudioPlayerFragment.isPlaying)) {
+            this.activity.playSong();
+            AudioPlayerFragment.isPlaying = true;
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.playButton:
@@ -71,21 +90,26 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
                 if (AudioPlayerFragment.isPlaying) {
                     playPause.setImageResource(R.drawable.ic_action_pause);
                     AudioPlayerFragment.isPlaying = false;
+                    activity.pauseSong();
                 } else {
                     playPause.setImageResource(R.drawable.ic_action_play);
                     AudioPlayerFragment.isPlaying = true;
+                    activity.playSong();
                 }
-
-
                 break;
             case R.id.stopButton:
                 Log.i(TAG, "Stop button pressed");
+                activity.stopSong();
                 break;
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
+                activity.previousSong();
                 break;
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
+                activity.nextSong();
+                break;
+            default:
                 break;
         }
     }
