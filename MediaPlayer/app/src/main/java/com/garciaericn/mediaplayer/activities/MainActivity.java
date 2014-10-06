@@ -24,13 +24,13 @@ public class MainActivity extends Activity {
                 .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
                 .commit();
 
-//        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
-//
-//        String packageName = getPackageName();
-//
-//        fm.beginTransaction()
-//                .replace(R.id.video_player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
-//                .commit();
+        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
+
+        String packageName = getPackageName();
+
+        fm.beginTransaction()
+                .replace(R.id.player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
+                .commit();
 
     }
 
