@@ -1,11 +1,13 @@
 package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
 import com.garciaericn.mediaplayer.fragments.AudioPlayerFragment;
@@ -60,11 +62,17 @@ public class MainActivity extends Activity
                 .beginTransaction()
                 .replace(R.id.player_container, AudioPlayerFragment.newInstance(packageName), AudioPlayerFragment.TAG)
                 .commit();
+
+        Intent intent = new Intent(this, MusicPlayerService.class);
+        startService(intent);
     }
 
     @Override
     public void loadVideo() {
         Log.i(TAG, "loadVideo entered");
+
+        Intent intent = new Intent(this, MusicPlayerService.class);
+        stopService(intent);
 
         getFragmentManager()
                 .beginTransaction()
