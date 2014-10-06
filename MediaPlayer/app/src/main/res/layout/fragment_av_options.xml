@@ -14,13 +14,13 @@
             android:layout_height="wrap_content"
             android:text="@string/button_audio"
             android:layout_weight="1"
-            android:id="@+id/button" />
+            android:id="@+id/audio_button" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_video"
             android:layout_weight="1"
-            android:id="@+id/button2" />
+            android:id="@+id/video_button" />
     </LinearLayout>
 </RelativeLayout>

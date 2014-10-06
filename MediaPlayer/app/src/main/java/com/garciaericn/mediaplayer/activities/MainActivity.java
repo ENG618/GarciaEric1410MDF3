@@ -3,6 +3,7 @@ package com.garciaericn.mediaplayer.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +12,10 @@ import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
 import com.garciaericn.mediaplayer.fragments.VideoPlayerFragment;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+    implements AVOptionsFragment.AVOptionsFragmentCallbacks{
+
+    private static final String TAG = "MainActivity.TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +28,7 @@ public class MainActivity extends Activity {
                 .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
                 .commit();
 
-        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
 
-        String packageName = getPackageName();
-
-        fm.beginTransaction()
-                .replace(R.id.player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
-                .commit();
 
     }
 
@@ -52,5 +50,24 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loadAudio() {
+
+    }
+
+    @Override
+    public void loadVideo() {
+        Log.i(TAG, "loadVideo entered");
+
+        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
+
+        String packageName = getPackageName();
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
+                .commit();
     }
 }
