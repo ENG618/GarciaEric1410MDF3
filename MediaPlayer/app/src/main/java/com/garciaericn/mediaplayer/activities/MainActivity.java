@@ -1,8 +1,11 @@
 package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +18,12 @@ import com.garciaericn.mediaplayer.fragments.VideoPlayerFragment;
 
 
 public class MainActivity extends Activity
-    implements AVOptionsFragment.AVOptionsFragmentCallbacks{
+    implements AVOptionsFragment.AVOptionsFragmentCallbacks, ServiceConnection{
 
     private static final String TAG = "MainActivity.TAG";
     private String packageName;
+    MusicPlayerService mService;
+    boolean mBound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,9 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * AVOptionsFragmentCallbacks Methods
+     */
     @Override
     public void loadAudio() {
         Log.i(TAG, "loadAudio entered");
@@ -78,5 +86,45 @@ public class MainActivity extends Activity
                 .beginTransaction()
                 .replace(R.id.player_container, VideoPlayerFragment.newInstance(packageName), VideoPlayerFragment.TAG)
                 .commit();
+    }
+
+    /**
+    * Service Binder Methods
+    */
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, MusicPlayerService.class);
+        bindService(intent, this, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBound) {
+            unbindService(this);
+
+/*
+            // Backup in case the service was started and not stopped.
+            // Not needed if only binding was used.
+            Intent intent = new Intent(this, MusicPlayerService.class);
+            stopService(intent);
+*/
+        }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
+        mService = binder.getService();
+        mBound = true;
+        mService.showToastFromService();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        mService = null;
+        mBound = false;
     }
 }

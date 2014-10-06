@@ -2,6 +2,7 @@ package com.garciaericn.mediaplayer;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -12,12 +13,21 @@ import android.widget.Toast;
  */
 public class MusicPlayerService extends Service{
 
+    public class MusicPlayerBinder extends Binder {
+        public MusicPlayerService getService() {
+            return MusicPlayerService.this;
+        }
+    }
+
+    MusicPlayerBinder musicPlayerBinder;
+
     private static final int FOREGROUD_NOTIFICATION = 0x323d55;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        musicPlayerBinder = new MusicPlayerBinder();
         Toast.makeText(this, "Service Created", Toast.LENGTH_SHORT).show();
     }
 
@@ -35,7 +45,11 @@ public class MusicPlayerService extends Service{
 
     @Override
     public IBinder onBind(Intent intent) {
-        // Don't allow binding.
-        return null;
+        Toast.makeText(this, "Service Bound", Toast.LENGTH_SHORT).show();
+        return musicPlayerBinder;
+    }
+
+    public void showToastFromService() {
+        Toast.makeText(this, "Toast from service", Toast.LENGTH_SHORT).show();
     }
 }
