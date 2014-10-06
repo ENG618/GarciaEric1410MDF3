@@ -54,6 +54,7 @@ public class MainActivity extends Activity
 
     @Override
     public void loadAudio() {
+        Log.i(TAG, "loadAudio entered");
 
     }
 
