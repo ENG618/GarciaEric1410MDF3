@@ -22,14 +22,14 @@ public class VideoPlayerFragment extends Fragment {
 
     public static final String TAG = "VideoPlayerFragment.TAG";
 
-    private Context mContext;
+    private static String packageName;
 
     public VideoPlayerFragment() {
 
     }
 
-    public VideoPlayerFragment newInstance(Context context) {
-        this.mContext = context;
+    public VideoPlayerFragment newInstance(String packageName) {
+        VideoPlayerFragment.packageName = packageName;
 
         VideoPlayerFragment vpf = new VideoPlayerFragment();
         return vpf;
@@ -41,11 +41,11 @@ public class VideoPlayerFragment extends Fragment {
         //Load layout
         View view = inflater.inflate(R.layout.fragment_video_player, container, false);
 
-        String demoVideoString = "android.resource://" + mContext.getPackageName() + "/" + R.raw.demo;
+        String demoVideoString = "android.resource://" + packageName + "/" + R.raw.demo;
 
-        VideoView vv = (VideoView) getView().findViewById(R.id.video_view);
+        VideoView vv = (VideoView) view.findViewById(R.id.video_view);
         vv.setVideoURI(Uri.parse(demoVideoString));
-        vv.setMediaController(new MediaController(mContext));
+        vv.setMediaController(new MediaController(getActivity()));
         vv.start();
 
         return view;

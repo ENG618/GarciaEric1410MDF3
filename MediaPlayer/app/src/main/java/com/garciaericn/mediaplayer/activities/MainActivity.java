@@ -2,12 +2,9 @@ package com.garciaericn.mediaplayer.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
@@ -27,11 +24,13 @@ public class MainActivity extends Activity {
                 .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
                 .commit();
 
-        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
-
-        fm.beginTransaction()
-                .replace(R.id.video_player_container, vpFragment.newInstance(this), VideoPlayerFragment.TAG)
-                .commit();
+//        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
+//
+//        String packageName = getPackageName();
+//
+//        fm.beginTransaction()
+//                .replace(R.id.video_player_container, vpFragment.newInstance(packageName), VideoPlayerFragment.TAG)
+//                .commit();
 
     }
 
