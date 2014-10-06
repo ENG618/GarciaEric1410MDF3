@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/title_video_player"
+        android:padding="10dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/titleVideoPlayer" />
 

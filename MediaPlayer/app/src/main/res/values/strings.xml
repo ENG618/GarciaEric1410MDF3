@@ -8,5 +8,8 @@
     <string name="button_video">Play Video</string>
     <string name="title_video_player">Video Player</string>
     <string name="title_audio_player">Audio Player</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_play">Play</string>
+    <string name="button_previous">Previous</string>
 
 </resources>
