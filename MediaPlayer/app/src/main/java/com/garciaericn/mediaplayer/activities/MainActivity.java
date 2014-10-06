@@ -27,16 +27,12 @@ public class MainActivity extends Activity {
                 .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
                 .commit();
 
+        VideoPlayerFragment vpFragment = new VideoPlayerFragment();
+
         fm.beginTransaction()
-                .replace(R.id.video_player_container, VideoPlayerFragment.newInstance(), VideoPlayerFragment.TAG)
+                .replace(R.id.video_player_container, vpFragment.newInstance(this), VideoPlayerFragment.TAG)
                 .commit();
 
-        String demoVideoString = "android.resource://" + getPackageName() + "/" + R.raw.demo;
-
-        VideoView vv = (VideoView)findViewById(R.id.video_view);
-        vv.setVideoURI(Uri.parse(demoVideoString));
-        vv.setMediaController(new MediaController(this));
-        vv.start();
     }
 
 
