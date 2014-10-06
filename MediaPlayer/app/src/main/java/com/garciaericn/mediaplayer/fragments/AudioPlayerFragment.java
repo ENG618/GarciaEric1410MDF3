@@ -18,13 +18,15 @@ public class AudioPlayerFragment extends Fragment {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
 
+    private static String packageName;
     private static AudioPlayerFragment audioPlayerFragment;
 
     public AudioPlayerFragment() {
 
     }
 
-    public static AudioPlayerFragment newInstance() {
+    public static AudioPlayerFragment newInstance(String packageName) {
+        AudioPlayerFragment.packageName = packageName;
 
         if (audioPlayerFragment == null) {
             audioPlayerFragment = new AudioPlayerFragment();
@@ -36,15 +38,11 @@ public class AudioPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView entered");
+
         //Load layout
         View view = inflater.inflate(R.layout.fragment_audio_player, container, false);
 
 //        String demoVideoString = "android.resource://" + packageName + "/" + R.raw.demo;
-//
-//        VideoView vv = (VideoView) view.findViewById(R.id.video_view);
-//        vv.setVideoURI(Uri.parse(demoVideoString));
-//        vv.setMediaController(new MediaController(getActivity()));
-//        vv.start();
 
         return view;
     }

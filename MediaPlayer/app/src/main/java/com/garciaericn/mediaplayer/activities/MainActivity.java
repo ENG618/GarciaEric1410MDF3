@@ -16,11 +16,14 @@ public class MainActivity extends Activity
     implements AVOptionsFragment.AVOptionsFragmentCallbacks{
 
     private static final String TAG = "MainActivity.TAG";
+    private String packageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        packageName = getPackageName();
 
         // Load AV options fragment
         getFragmentManager()
@@ -55,17 +58,13 @@ public class MainActivity extends Activity
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.player_container, AudioPlayerFragment.newInstance(), AudioPlayerFragment.TAG)
+                .replace(R.id.player_container, AudioPlayerFragment.newInstance(packageName), AudioPlayerFragment.TAG)
                 .commit();
-
-
     }
 
     @Override
     public void loadVideo() {
         Log.i(TAG, "loadVideo entered");
-
-        String packageName = getPackageName();
 
         getFragmentManager()
                 .beginTransaction()

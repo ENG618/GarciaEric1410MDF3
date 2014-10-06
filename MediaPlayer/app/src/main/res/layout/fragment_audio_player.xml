@@ -13,8 +13,4 @@
         android:id="@+id/titleAudioPlayer"
         android:layout_gravity="center_horizontal" />
 
-    <VideoView android:id="@+id/video_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
 </LinearLayout>

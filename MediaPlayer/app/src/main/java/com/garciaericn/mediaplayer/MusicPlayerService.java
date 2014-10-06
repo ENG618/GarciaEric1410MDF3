@@ -13,6 +13,16 @@ public class MusicPlayerService extends Service{
 
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_NOT_STICKY;
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         // Don't allow binding.
         return null;
