@@ -23,7 +23,6 @@ public class AVOptionsFragment extends Fragment implements View.OnClickListener 
 
     public interface AVOptionsFragmentCallbacks{
         public void loadAudio();
-        public void loadVideo();
     }
 
     public AVOptionsFragment() {
@@ -63,10 +62,6 @@ public class AVOptionsFragment extends Fragment implements View.OnClickListener 
             case R.id.audio_button:
                 Log.i(TAG, "Audio button pressed");
                 activity.loadAudio();
-                break;
-            case R.id.video_button:
-                Log.i(TAG, "Video button pressed");
-                activity.loadVideo();
                 break;
             default:
                 break;
