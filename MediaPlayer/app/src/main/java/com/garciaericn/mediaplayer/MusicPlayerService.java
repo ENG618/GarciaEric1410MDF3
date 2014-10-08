@@ -68,7 +68,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
-        return Service.START_NOT_STICKY;
+        return Service.START_STICKY;
     }
 
     private void setNotification(String title, String content) {
@@ -147,7 +147,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             if(mediaPlayer != null && !mPrepared) {
                 mediaPlayer.prepareAsync();
             } else if(mediaPlayer != null && mPrepared) {
-                mediaPlayer.seekTo(mAudioPosition);
+//                mediaPlayer.seekTo(mAudioPosition);
                 mediaPlayer.start();
             }
         }
@@ -166,6 +166,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         // Increment to next song
         currentSong ++;
         // TODO: Next song start play
+        // Reset, set data, prepare Async
     }
 
     // Previous song
@@ -173,6 +174,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         // Decrement to previous song
         currentSong --;
         // TODO: Start player
+        // Reset, set data, prepare Async
     }
 
     // Stop Media
@@ -189,5 +191,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             mediaPlayer.release();
         }
     }
+
+    // method if prepared
 
  }

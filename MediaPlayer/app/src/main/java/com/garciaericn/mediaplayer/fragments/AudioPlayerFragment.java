@@ -29,9 +29,9 @@ import java.util.List;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
+
 public class AudioPlayerFragment extends Fragment
         implements View.OnClickListener,
-        MediaPlayer.OnCompletionListener,
         ServiceConnection {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
@@ -42,15 +42,6 @@ public class AudioPlayerFragment extends Fragment
 
     public AudioPlayerFragment() {
 
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-//        if(savedInstanceState != null && savedInstanceState.containsKey(SAVE_POSITION)) {
-//            mAudioPosition = savedInstanceState.getInt(SAVE_POSITION, 0);
-//        }
     }
 
     public static AudioPlayerFragment newInstance() {
@@ -147,11 +138,6 @@ public class AudioPlayerFragment extends Fragment
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        // TODO: Play next song
     }
 
     /**
