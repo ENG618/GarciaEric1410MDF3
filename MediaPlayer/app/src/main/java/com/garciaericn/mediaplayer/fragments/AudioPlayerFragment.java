@@ -2,11 +2,14 @@ package com.garciaericn.mediaplayer.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,17 +29,16 @@ import java.util.List;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
-public class AudioPlayerFragment extends Fragment implements View.OnClickListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class AudioPlayerFragment extends Fragment
+        implements View.OnClickListener,
+        MediaPlayer.OnCompletionListener,
+        ServiceConnection {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
     private static final String SAVE_POSITION = "AudioPlayerFragment.SAVE_POSITION";
 
-    private static String packageName;
-    private MediaPlayer mediaPlayer;
-    private boolean mPrepared;
-    private int mAudioPosition;
-    private boolean mActivityResumed;
-    private List<Song> songsArray;
+    MusicPlayerService musicPlayerService;
+    boolean mBound;
 
     public AudioPlayerFragment() {
 
@@ -46,17 +48,12 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPrepared = mActivityResumed = false;
-        mAudioPosition = 0;
-
-        if(savedInstanceState != null && savedInstanceState.containsKey(SAVE_POSITION)) {
-            mAudioPosition = savedInstanceState.getInt(SAVE_POSITION, 0);
-        }
+//        if(savedInstanceState != null && savedInstanceState.containsKey(SAVE_POSITION)) {
+//            mAudioPosition = savedInstanceState.getInt(SAVE_POSITION, 0);
+//        }
     }
 
-    public static AudioPlayerFragment newInstance(String packageName) {
-        AudioPlayerFragment.packageName = packageName;
-
+    public static AudioPlayerFragment newInstance() {
         return new AudioPlayerFragment();
     }
 
@@ -83,14 +80,6 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    private void setInfo(Song song){
-        TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
-        songTV.setText(song.getSongTitle());
-
-        TextView artistTV = (TextView) getView().findViewById(R.id.titleTV);
-        artistTV.setText(song.getSongAuthor());
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -101,90 +90,17 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
 
         activity.bindService(intent, (android.content.ServiceConnection) activity, Context.BIND_AUTO_CREATE);
     }
-/*
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(mediaPlayer == null) {
+    private void setInfo(Song song){
+        TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
+        songTV.setText(song.getSongTitle());
 
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnPreparedListener(this);
-
-            try {
-                String audioResource = "android.resource://" + packageName + "/" + R.raw.carefree;
-                mediaPlayer.setDataSource(getActivity(), Uri.parse(audioResource));
-            } catch(IOException e) {
-                e.printStackTrace();
-
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-        }
-    }
-*/
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(mediaPlayer != null) {
-            outState.putInt(SAVE_POSITION, mediaPlayer.getCurrentPosition());
-        }
+        TextView artistTV = (TextView) getView().findViewById(R.id.titleTV);
+        artistTV.setText(song.getSongAuthor());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mActivityResumed = true;
-        if(mediaPlayer != null && !mPrepared) {
-            mediaPlayer.prepareAsync();
-        } else if(mediaPlayer != null && mPrepared) {
-            mediaPlayer.seekTo(mAudioPosition);
-            mediaPlayer.start();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mActivityResumed = false;
-
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mPrepared = false;
-        }
-    }
-/*
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if(mediaPlayer != null) {
-            mediaPlayer.release();
-        }
-    }
-*/
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mPrepared = true;
-
-        if(mediaPlayer != null && mActivityResumed) {
-            mediaPlayer.seekTo(mAudioPosition);
-            mediaPlayer.start();
-        }
+    private void updateSeekBar() {
+        // TODO: Create thread to update every second and update seekBar.
     }
 
     @Override
@@ -194,7 +110,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
                 ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
-                if (MusicPlayerService.isPlaying) {
+                if (musicPlayerService.isPlaying) {
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
                     // TODO: Pause from service
@@ -210,20 +126,24 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
                     onResume();
                 }
                 break;
+
             case R.id.stopButton:
                 Log.i(TAG, "Stop button pressed");
                 //TODO: Stop from service
                 onStop();
                 getActivity().stopService(intent);
                 break;
+
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
                 // TODO: Previous from service
                 break;
+
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
                 // TODO: Next from service
                 break;
+
             default:
                 break;
         }
@@ -232,5 +152,23 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCompletion(MediaPlayer mp) {
         // TODO: Play next song
+    }
+
+    /**
+     * Service Binder Methods
+     */
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
+        musicPlayerService = binder.getService();
+        mBound = true;
+        musicPlayerService.showToastFromService();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        musicPlayerService = null;
+        mBound = false;
     }
 }

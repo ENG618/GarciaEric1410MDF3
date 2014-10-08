@@ -44,22 +44,29 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     public void onCreate() {
         super.onCreate();
 
+        // Set current song to 1st position in array
         currentSong = 0;
 
-        songsArray = new ArrayList<Song>();
+        // Verify if songs array is already populated
+        if (songsArray == null) {
+            // Initialize array
+            songsArray = new ArrayList<Song>();
 
-        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod"));
-        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod"));
-        songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
+            // Add songs to array via Song object
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod"));
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod"));
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
+        }
 
-
+        // Create and cache binder
         musicPlayerBinder = new MusicPlayerBinder();
+
+        // Show toast the service was created
         Toast.makeText(this, "Service Created", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         return Service.START_NOT_STICKY;
     }
@@ -117,7 +124,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     // Start media player
-    public void start(){
+    public void startMedia(){
         // TODO: Prepare MP
         if (mediaPlayer != null) {
             mediaPlayer = new MediaPlayer();
@@ -136,12 +143,22 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             }
         } else {
             // TODO: Resume playing
+            mActivityResumed = true;
+            if(mediaPlayer != null && !mPrepared) {
+                mediaPlayer.prepareAsync();
+            } else if(mediaPlayer != null && mPrepared) {
+                mediaPlayer.seekTo(mAudioPosition);
+                mediaPlayer.start();
+            }
         }
     }
 
     // Pause media
-    public void pause() {
+    public void pauseMedia() {
         // TODO: Pause media
+        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
     }
 
     //Next song
@@ -159,7 +176,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     // Stop Media
-    public void stop() {
+    public void stopMedia() {
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mPrepared = false;

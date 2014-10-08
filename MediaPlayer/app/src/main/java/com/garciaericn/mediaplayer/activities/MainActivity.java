@@ -16,12 +16,9 @@ import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.fragments.AudioPlayerFragment;
 
 
-public class MainActivity extends Activity
-    implements ServiceConnection{
+public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity.TAG";
-    MusicPlayerService musicPlayerService;
-    boolean mBound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,7 @@ public class MainActivity extends Activity
         // Load AV options fragment
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.player_container, AudioPlayerFragment.newInstance(getPackageName()), AudioPlayerFragment.TAG)
+                .replace(R.id.player_container, AudioPlayerFragment.newInstance(), AudioPlayerFragment.TAG)
                 .commit();
     }
 
@@ -66,28 +63,5 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void test(){
-        musicPlayerService.showToastFromService();
-    }
-
-    /**
-    * Service Binder Methods
-    */
-
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-        MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
-        musicPlayerService = binder.getService();
-        mBound = true;
-//        musicPlayerService.showToastFromService();
-        test();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-        musicPlayerService = null;
-        mBound = false;
     }
 }
