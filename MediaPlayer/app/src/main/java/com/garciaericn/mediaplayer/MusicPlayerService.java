@@ -56,17 +56,21 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        setNotification("Service started", "Service is in Foreground");
+
+        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
+        return Service.START_NOT_STICKY;
+    }
+
+    private void setNotification(String title, String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_action_play)
-                .setContentTitle("Service Running")
-                .setContentText("Track info here.")
+                .setContentTitle(title)
+                .setContentText(content)
                 .setAutoCancel(false)
                 .setOngoing(true);
 
         startForeground(FOREGROUD_NOTIFICATION, builder.build());
-
-        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
-        return Service.START_NOT_STICKY;
     }
 
     @Override
