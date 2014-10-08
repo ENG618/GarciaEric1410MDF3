@@ -1,9 +1,7 @@
 package com.garciaericn.mediaplayer.fragments;
 
 import android.app.Fragment;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +108,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             AudioPlayerFragment.isPlaying = true;
         }
     }*/
+/*
 
     @Override
     public void onStart() {
@@ -132,6 +130,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             }
         }
     }
+*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

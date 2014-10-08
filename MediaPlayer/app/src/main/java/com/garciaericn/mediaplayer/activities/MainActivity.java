@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -14,16 +13,13 @@ import android.view.MenuItem;
 
 import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
-import com.garciaericn.mediaplayer.fragments.AVOptionsFragment;
 import com.garciaericn.mediaplayer.fragments.AudioPlayerFragment;
 
 
 public class MainActivity extends Activity
-    implements AVOptionsFragment.AVOptionsFragmentCallbacks,
-        ServiceConnection{
+    implements ServiceConnection{
 
     private static final String TAG = "MainActivity.TAG";
-    private String packageName;
     MusicPlayerService musicPlayerService;
     boolean mBound;
 
@@ -31,16 +27,14 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        packageName = getPackageName();
+        Log.i(TAG, "onCreate entered");
 
         // Load AV options fragment
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.av_options_container, AVOptionsFragment.newInstance(), AVOptionsFragment.TAG)
+                .replace(R.id.player_container, AudioPlayerFragment.newInstance(getPackageName()), AudioPlayerFragment.TAG)
                 .commit();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,21 +68,8 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * AVOptionsFragmentCallbacks Methods
-     */
-
-    @Override
-    public void loadAudio() {
-        Log.i(TAG, "loadAudio entered");
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.player_container, AudioPlayerFragment.newInstance(packageName), AudioPlayerFragment.TAG)
-                .commit();
-
-        Intent intent = new Intent(this, MusicPlayerService.class);
-        startService(intent);
+    public void test(){
+        musicPlayerService.showToastFromService();
     }
 
     /**
@@ -100,7 +81,8 @@ public class MainActivity extends Activity
         MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
         musicPlayerService = binder.getService();
         mBound = true;
-        musicPlayerService.showToastFromService();
+//        musicPlayerService.showToastFromService();
+        test();
     }
 
     @Override

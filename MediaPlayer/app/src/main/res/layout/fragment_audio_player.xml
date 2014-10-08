@@ -42,7 +42,7 @@
                 android:ems="10"
                 android:id="@+id/titleTV"
                 android:paddingLeft="5dp" />
-        </TableRow>
+        </TableRow>`
 
         <TableRow android:padding="10dp">
             <TextView
