@@ -9,11 +9,11 @@ import android.net.Uri;
  */
 public class Song {
 
-    private Uri songURI;
+    private String songURI;
     private String songTitle;
     private String songAuthor;
 
-    public Song(Uri songURI, String songTitle, String songAuthor) {
+    public Song(String songURI, String songTitle, String songAuthor) {
         this.songURI = songURI;
         this.songTitle = songTitle;
         this.songAuthor = songAuthor;
@@ -22,11 +22,11 @@ public class Song {
     // Getter and setter methods
 
 
-    public Uri getSongURI() {
+    public String getSongURI() {
         return songURI;
     }
 
-    public void setSongURI(Uri songURI) {
+    public void setSongURI(String songURI) {
         this.songURI = songURI;
     }
 

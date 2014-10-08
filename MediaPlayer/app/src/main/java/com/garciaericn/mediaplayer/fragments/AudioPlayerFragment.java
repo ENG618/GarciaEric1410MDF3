@@ -26,13 +26,12 @@ import java.util.List;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
-public class AudioPlayerFragment extends Fragment implements View.OnClickListener, MediaPlayer.OnPreparedListener {
+public class AudioPlayerFragment extends Fragment implements View.OnClickListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
     private static final String SAVE_POSITION = "AudioPlayerFragment.SAVE_POSITION";
 
     private static String packageName;
-    private static AudioPlayerFragment audioPlayerFragment;
     private MediaPlayer mediaPlayer;
     private boolean mPrepared;
     private int mAudioPosition;
@@ -47,12 +46,6 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        songsArray = new ArrayList<Song>();
-
-        songsArray.add(new Song(Uri.parse("android.resource://" + packageName + "/" + R.raw.blown_away), "Blown Away", "Kevin MacLeod"));
-        songsArray.add(new Song(Uri.parse("android.resource://" + packageName + "/" + R.raw.carefree), "Carefree", "Kevin MacLeod"));
-//        songsArray.add(new Song("android.resource://" + packageName + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
-
         mPrepared = mActivityResumed = false;
         mAudioPosition = 0;
 
@@ -64,11 +57,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     public static AudioPlayerFragment newInstance(String packageName) {
         AudioPlayerFragment.packageName = packageName;
 
-        if (audioPlayerFragment == null) {
-            audioPlayerFragment = new AudioPlayerFragment();
-        }
-
-        return audioPlayerFragment;
+        return new AudioPlayerFragment();
     }
 
     @Override
@@ -176,6 +165,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             mPrepared = false;
         }
     }
+/*
 
     @Override
     public void onDestroy() {
@@ -185,6 +175,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             mediaPlayer.release();
         }
     }
+*/
 
     @Override
     public void onPrepared(MediaPlayer mp) {
@@ -236,5 +227,10 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        // TODO: Play next song
     }
 }
