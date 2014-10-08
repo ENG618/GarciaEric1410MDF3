@@ -17,7 +17,6 @@ import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 

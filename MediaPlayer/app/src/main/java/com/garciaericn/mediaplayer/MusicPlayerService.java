@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -55,6 +56,15 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.ic_action_play)
+                .setContentTitle("Service Running")
+                .setContentText("Track info here.")
+                .setAutoCancel(false)
+                .setOngoing(true);
+
+        startForeground(FOREGROUD_NOTIFICATION, builder.build());
+
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         return Service.START_NOT_STICKY;
     }
