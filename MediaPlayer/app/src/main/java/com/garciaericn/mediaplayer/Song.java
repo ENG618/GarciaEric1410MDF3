@@ -1,5 +1,7 @@
 package com.garciaericn.mediaplayer;
 
+import android.net.Uri;
+
 /**
  * Full Sail University
  * Mobile Development BS
@@ -7,11 +9,11 @@ package com.garciaericn.mediaplayer;
  */
 public class Song {
 
-    private String songURI;
+    private Uri songURI;
     private String songTitle;
     private String songAuthor;
 
-    public Song(String songURI, String songTitle, String songAuthor) {
+    public Song(Uri songURI, String songTitle, String songAuthor) {
         this.songURI = songURI;
         this.songTitle = songTitle;
         this.songAuthor = songAuthor;
@@ -20,11 +22,11 @@ public class Song {
     // Getter and setter methods
 
 
-    public String getSongURI() {
+    public Uri getSongURI() {
         return songURI;
     }
 
-    public void setSongURI(String songURI) {
+    public void setSongURI(Uri songURI) {
         this.songURI = songURI;
     }
 

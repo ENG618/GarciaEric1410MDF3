@@ -1,7 +1,10 @@
 package com.garciaericn.mediaplayer.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +32,6 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
     private static final String SAVE_POSITION = "AudioPlayerFragment.SAVE_POSITION";
 
     private static String packageName;
-    private static boolean isPlaying;
     private static AudioPlayerFragment audioPlayerFragment;
     private MediaPlayer mediaPlayer;
     private boolean mPrepared;
@@ -45,9 +49,9 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
 
         songsArray = new ArrayList<Song>();
 
-        songsArray.add(new Song("android.resource://" + packageName + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod"));
-        songsArray.add(new Song("android.resource://" + packageName + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod"));
-        songsArray.add(new Song("android.resource://" + packageName + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
+        songsArray.add(new Song(Uri.parse("android.resource://" + packageName + "/" + R.raw.blown_away), "Blown Away", "Kevin MacLeod"));
+        songsArray.add(new Song(Uri.parse("android.resource://" + packageName + "/" + R.raw.carefree), "Carefree", "Kevin MacLeod"));
+//        songsArray.add(new Song("android.resource://" + packageName + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
 
         mPrepared = mActivityResumed = false;
         mAudioPosition = 0;
@@ -98,16 +102,14 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
         artistTV.setText(song.getSongAuthor());
     }
 
-/*    @Override
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (AudioPlayerCallback) activity;
 
-        if (!(AudioPlayerFragment.isPlaying)) {
-            this.activity.playSong();
-            AudioPlayerFragment.isPlaying = true;
-        }
-    }*/
+        // Create intent and start service
+        Intent intent = new Intent(getActivity(), MusicPlayerService.class);
+        activity.startService(intent);
+    }
 /*
 
     @Override
@@ -198,28 +200,34 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
                 ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
-                if (AudioPlayerFragment.isPlaying) {
+                if (MusicPlayerService.isPlaying) {
+                    // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
-                    AudioPlayerFragment.isPlaying = false;
-//                    activity.pauseSong();
+                    // TODO: Pause from service
                     onPause();
                 } else {
+//                    // Create service and start service
+//                    Intent intent = new Intent(getActivity(), MusicPlayerService.class);
+//                    getActivity().startService(intent);
+
+                    // Change pause button to pause
                     playPause.setImageResource(R.drawable.ic_action_pause);
-                    AudioPlayerFragment.isPlaying = true;
-//                    activity.playSong();
+                    // TODO: Call resume from service
                     onResume();
                 }
                 break;
             case R.id.stopButton:
                 Log.i(TAG, "Stop button pressed");
-//                activity.stopSong();
+                //TODO: Stop from service
                 onStop();
                 break;
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
+                // TODO: Previous from service
                 break;
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
+                // TODO: Next from service
                 break;
             default:
                 break;

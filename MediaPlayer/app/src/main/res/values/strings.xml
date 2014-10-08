@@ -13,5 +13,6 @@
     <string name="button_previous">Previous</string>
     <string name="label_author">Author: </string>
     <string name="label_title">Song Title: </string>
+    <string name="button_next">Next</string>
 
 </resources>
