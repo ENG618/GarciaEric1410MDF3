@@ -35,7 +35,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     MusicPlayerBinder musicPlayerBinder;
 
-    private static final int FOREGROUD_NOTIFICATION = 0x323d55;
+    private static final int FOREGROUND_NOTIFICATION = 0x323d55;
 
     @Override
     public void onCreate() {
@@ -70,7 +70,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
                 .setAutoCancel(false)
                 .setOngoing(true);
 
-        startForeground(FOREGROUD_NOTIFICATION, builder.build());
+        startForeground(FOREGROUND_NOTIFICATION, builder.build());
     }
 
     @Override

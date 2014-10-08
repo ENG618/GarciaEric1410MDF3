@@ -2,6 +2,7 @@ package com.garciaericn.mediaplayer.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -108,6 +109,8 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
         // Create intent and start service
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         activity.startService(intent);
+
+        activity.bindService(intent, (android.content.ServiceConnection) activity, Context.BIND_AUTO_CREATE);
     }
 /*
 
@@ -195,6 +198,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         switch (v.getId()) {
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
@@ -219,6 +223,7 @@ public class AudioPlayerFragment extends Fragment implements View.OnClickListene
                 Log.i(TAG, "Stop button pressed");
                 //TODO: Stop from service
                 onStop();
+                getActivity().stopService(intent);
                 break;
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
