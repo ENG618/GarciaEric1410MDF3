@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,15 +19,17 @@ import java.util.ArrayList;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
-public class MusicPlayerService extends Service implements MediaPlayer.OnPreparedListener {
+public class MusicPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
-    public boolean isPlaying;
+    private static final String TAG = "MusicPlayerService.TAG";
+    private static final int FOREGROUND_NOTIFICATION = 0x323d55;
 
+    private MusicPlayerBinder musicPlayerBinder;
     private MediaPlayer mediaPlayer;
-    private int currentSong;
-    private ArrayList<Song> songsArray;
     private boolean mPrepared;
-    private boolean mActivityResumed;
+    private ArrayList<Song> songsArray;
+    private int currentSong;
+    public boolean isPlaying;
     private int mAudioPosition;
 
 
@@ -36,16 +39,16 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         }
     }
 
-    MusicPlayerBinder musicPlayerBinder;
-
-    private static final int FOREGROUND_NOTIFICATION = 0x323d55;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         // Set current song to 1st position in array
         currentSong = 0;
+        // Set default position to 0
+        mAudioPosition = 0;
+        // Set is playing & prepared to false default
+        isPlaying = mPrepared = false;
 
         // Verify if songs array is already populated
         if (songsArray == null) {
@@ -67,6 +70,16 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (mediaPlayer == null) {
+            // Initialize media player, set audio type, set onPreparedListener
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnErrorListener(this);
+            isPlaying = false;
+            mPrepared = false;
+        }
+
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         return Service.START_STICKY;
     }
@@ -94,10 +107,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return musicPlayerBinder;
     }
 
-    public void showToastFromService() {
-        Toast.makeText(this, "Toast from service", Toast.LENGTH_SHORT).show();
-    }
-
     /**
      * Media Player onPreparedListener
      * */
@@ -105,7 +114,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     @Override
     public void onPrepared(MediaPlayer mp) {
         // TODO: Set to foreground. (With Notification)
-        // TODO: Start playing.
         mPrepared = true;
 
         if(mediaPlayer != null) {
@@ -123,41 +131,57 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return isPlaying;
     }
 
+    // Verify if player is prepared
+    public boolean isPrepared(){
+        return mPrepared;
+    }
+
     // Start media player
     public void playMedia(){
-        // TODO: Prepare MP
-        if (mediaPlayer != null) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnPreparedListener(this);
+        // Prepare MP
+        if (mediaPlayer != null && songsArray != null && !isPrepared()) {
 
             try {
-                // TODO: pull audio from array
-                String audioResource = "android.resource://" + getPackageName() + "/" + R.raw.carefree;
-                mediaPlayer.setDataSource(this, Uri.parse(audioResource));
+                // Get instance of current song
+                Song song = songsArray.get(currentSong);
+                // Set data source
+                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+                // Set notification
+                setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+                // Set is playing to true
+                isPlaying = true;
             } catch(IOException e) {
                 e.printStackTrace();
+                Log.i(TAG, "Media player error: " + e);
 
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
-        } else {
-            // TODO: Resume playing
-            mActivityResumed = true;
-            if(mediaPlayer != null && !mPrepared) {
-                mediaPlayer.prepareAsync();
-            } else if(mediaPlayer != null && mPrepared) {
+            mediaPlayer.prepareAsync();
+        } else { // Otherwise resume media
+            resumeMedia();
+        }
+    }
+
+    // Resume playing
+    public void resumeMedia() {
+        if(mediaPlayer != null && !mPrepared) {
+            mediaPlayer.prepareAsync();
+        } else if(mediaPlayer != null && mPrepared) {
 //                mediaPlayer.seekTo(mAudioPosition);
-                mediaPlayer.start();
-            }
+            mediaPlayer.start();
+            isPlaying = mPrepared = true;
         }
     }
 
     // Pause media
     public void pauseMedia() {
-        // TODO: Pause media
+        // Pause media
         if(mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            mAudioPosition = mediaPlayer.getCurrentPosition();
+            mPrepared = true;
+            isPlaying = false;
         }
     }
 
@@ -179,23 +203,33 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     // Stop Media
     public void stopMedia() {
-        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if(mediaPlayer != null) {
             mediaPlayer.stop();
-            mPrepared = false;
+            isPlaying = false;
+            releaseMediaPlayer();
         }
     }
 
     // Release media player
     public void releaseMediaPlayer() {
-        if(mediaPlayer != null) {
+        if(mediaPlayer != null && isPlaying) {
+            mediaPlayer.stop();
+            mPrepared = false;
+            stopForeground(true);
             mediaPlayer.release();
+
         }
     }
 
-    // method if prepared
-
-    public void test() {
-        Toast.makeText(this, "test from service", Toast.LENGTH_SHORT).show();
+    /**
+     * OnErrorListener
+     * */
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        Log.i(TAG, "There was an error in MediaPlayer: " + mp + " What: " + what + " Extra: " + extra);
+        Toast.makeText(this, "Error: Please try again", Toast.LENGTH_LONG).show();
+        mp.release();
+        mPrepared = isPlaying = false;
+        return false;
     }
-
  }

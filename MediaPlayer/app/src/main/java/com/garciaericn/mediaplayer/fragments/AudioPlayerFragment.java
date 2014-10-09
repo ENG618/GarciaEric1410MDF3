@@ -92,25 +92,33 @@ public class AudioPlayerFragment extends Fragment
     public void onClick(View v) {
         // Create intent to start service
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
+        // Capture instance of button
+        ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
 
         // Handle media player controls
         switch (v.getId()) {
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
-                // Capture instance of button
-                ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
                 // Check if player exist & is playing
                 if (musicPlayerService != null && musicPlayerService.isPlaying) {
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
                     // Pause from service
                     musicPlayerService.pauseMedia();
-                } else {// Otherwise start service and play music;
-                    // Start service
-                    getActivity().startService(intent);
+                } else if(musicPlayerService != null && !musicPlayerService.isPlaying && musicPlayerService.isPrepared()) {// Otherwise start service and play music;
                     // Change play button to pause
                     playPause.setImageResource(R.drawable.ic_action_pause);
                     // Call resume from service
+                    musicPlayerService.playMedia();
+                    break;
+                } else {
+                    getActivity().startService(intent);
+                    if (!mBound){
+                        getActivity().bindService(intent, this, Context.BIND_AUTO_CREATE);
+                    }
+                    // Change pause button to play
+                    playPause.setImageResource(R.drawable.ic_action_play);
+                    // Pause from service
                     musicPlayerService.playMedia();
                 }
                 break;
@@ -120,9 +128,11 @@ public class AudioPlayerFragment extends Fragment
                 // Call stopMedia from service
                 musicPlayerService.stopMedia();
                 // Stop service
-                getActivity().stopService(intent);
+//                getActivity().stopService(intent);
                 // Set media player to null
-                musicPlayerService = null;
+//                musicPlayerService = null;
+                // Change pause button to play
+                playPause.setImageResource(R.drawable.ic_action_play);
                 break;
 
             case R.id.previousButton:
@@ -149,7 +159,6 @@ public class AudioPlayerFragment extends Fragment
         MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
         musicPlayerService = binder.getService();
         mBound = true;
-        musicPlayerService.showToastFromService();
     }
 
     @Override
