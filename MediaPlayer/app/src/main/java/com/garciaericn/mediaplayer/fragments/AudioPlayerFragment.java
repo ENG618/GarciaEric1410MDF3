@@ -6,8 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -21,9 +19,6 @@ import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Full Sail University
  * Mobile Development BS
@@ -35,7 +30,6 @@ public class AudioPlayerFragment extends Fragment
         ServiceConnection {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
-    private static final String SAVE_POSITION = "AudioPlayerFragment.SAVE_POSITION";
 
     MusicPlayerService musicPlayerService;
     boolean mBound;
@@ -79,14 +73,14 @@ public class AudioPlayerFragment extends Fragment
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         activity.startService(intent);
 
-        activity.bindService(intent, (android.content.ServiceConnection) activity, Context.BIND_AUTO_CREATE);
+        activity.bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
 
     private void setInfo(Song song){
         TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
         songTV.setText(song.getSongTitle());
 
-        TextView artistTV = (TextView) getView().findViewById(R.id.titleTV);
+        TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
         artistTV.setText(song.getSongAuthor());
     }
 
@@ -96,43 +90,49 @@ public class AudioPlayerFragment extends Fragment
 
     @Override
     public void onClick(View v) {
+        // Create intent to start service
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
+
+        // Handle media player controls
         switch (v.getId()) {
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
+                // Capture instance of button
                 ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
-                if (musicPlayerService.isPlaying) {
+                // Check if player exist & is playing
+                if (musicPlayerService != null && musicPlayerService.isPlaying) {
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
-                    // TODO: Pause from service
-                    onPause();
-                } else {
-//                    // Create service and start service
-//                    Intent intent = new Intent(getActivity(), MusicPlayerService.class);
-//                    getActivity().startService(intent);
-
-                    // Change pause button to pause
+                    // Pause from service
+                    musicPlayerService.pauseMedia();
+                } else {// Otherwise start service and play music;
+                    // Start service
+                    getActivity().startService(intent);
+                    // Change play button to pause
                     playPause.setImageResource(R.drawable.ic_action_pause);
-                    // TODO: Call resume from service
-                    onResume();
+                    // Call resume from service
+                    musicPlayerService.playMedia();
                 }
                 break;
 
             case R.id.stopButton:
                 Log.i(TAG, "Stop button pressed");
-                //TODO: Stop from service
-                onStop();
+                // Call stopMedia from service
+                musicPlayerService.stopMedia();
+                // Stop service
                 getActivity().stopService(intent);
+                // Set media player to null
+                musicPlayerService = null;
                 break;
 
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
-                // TODO: Previous from service
+                musicPlayerService.previousSong();
                 break;
 
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
-                // TODO: Next from service
+                musicPlayerService.nextSong();
                 break;
 
             default:

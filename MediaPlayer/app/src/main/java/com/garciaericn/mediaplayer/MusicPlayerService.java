@@ -124,7 +124,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     // Start media player
-    public void startMedia(){
+    public void playMedia(){
         // TODO: Prepare MP
         if (mediaPlayer != null) {
             mediaPlayer = new MediaPlayer();
@@ -193,5 +193,9 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     // method if prepared
+
+    public void test() {
+        Toast.makeText(this, "test from service", Toast.LENGTH_SHORT).show();
+    }
 
  }
