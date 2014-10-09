@@ -78,12 +78,15 @@ public class AudioPlayerFragment extends Fragment
         }
     }
 
-    private void setInfo(Song song){
-        TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
-        songTV.setText(song.getSongTitle());
+    private void setInfo() {
+        Song song = musicPlayerService.getCurrentSong();
+        if (song != null) {
+            TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
+            songTV.setText(song.getSongTitle());
 
-        TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
-        artistTV.setText(song.getSongAuthor());
+            TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
+            artistTV.setText(song.getSongAuthor());
+        }
     }
 
     private void updateSeekBar() {
@@ -110,6 +113,7 @@ public class AudioPlayerFragment extends Fragment
                     playPause.setImageResource(R.drawable.ic_action_play);
                     // Pause from service
 //                    musicPlayerService.playMedia();
+                    setInfo();
                 }
                 // Check if player exist & is playing
                 if (musicPlayerService != null && musicPlayerService.isPlaying) {
@@ -117,6 +121,7 @@ public class AudioPlayerFragment extends Fragment
                     playPause.setImageResource(R.drawable.ic_action_play);
                     // Pause from service
                     musicPlayerService.pauseMedia();
+                    setInfo();
                 }
 
                 //Check if player exist & is not playing
@@ -125,6 +130,7 @@ public class AudioPlayerFragment extends Fragment
                     playPause.setImageResource(R.drawable.ic_action_pause);
                     // Call resume from service
                     musicPlayerService.playMedia();
+                    setInfo();
                 }
                 break;
 
@@ -143,11 +149,13 @@ public class AudioPlayerFragment extends Fragment
             case R.id.previousButton:
                 Log.i(TAG, "Previous button pressed");
                 musicPlayerService.previousSong();
+                setInfo();
                 break;
 
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
                 musicPlayerService.nextSong();
+                setInfo();
                 break;
 
             default:

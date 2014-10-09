@@ -26,9 +26,10 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     private MusicPlayerBinder musicPlayerBinder;
     private MediaPlayer mediaPlayer;
+    private Song currentSong;
     private boolean mPrepared;
     private ArrayList<Song> songsArray;
-    private int currentSong;
+    private int currentSongPosition;
     public boolean isPlaying;
     private int mAudioPosition;
 
@@ -44,7 +45,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         super.onCreate();
 
         // Set current song to 1st position in array
-        currentSong = 0;
+        currentSongPosition = 0;
         // Set default position to 0
         mAudioPosition = 0;
         // Set is playing & prepared to false default
@@ -113,7 +114,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        // TODO: Set to foreground. (With Notification)
         mPrepared = true;
 
         if(mediaPlayer != null) {
@@ -136,6 +136,10 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return mPrepared;
     }
 
+    public Song getCurrentSong() {
+        return currentSong;
+    }
+
     // Start media player
     public void playMedia(){
         // Prepare MP
@@ -143,11 +147,11 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
             try {
                 // Get instance of current song
-                Song song = songsArray.get(currentSong);
+                currentSong = songsArray.get(currentSongPosition);
                 // Set data source
-                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+                mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
                 // Set notification
-                setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+                setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
                 // Set is playing to true
                 isPlaying = true;
             } catch(IOException e) {
@@ -189,20 +193,20 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     //Next song
     public void nextSong() {
-        if ((songsArray.size()-1) > currentSong) {
+        if ((songsArray.size()-1) > currentSongPosition) {
             // Increment to next song
-            currentSong++;
+            currentSongPosition++;
             // Get instance of current song
-            Song song = songsArray.get(currentSong);
+            currentSong = songsArray.get(currentSongPosition);
             mediaPlayer.reset();
             try {
-                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+                mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             mediaPlayer.prepareAsync();
             // Set notification
-            setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+            setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
             // Set is playing to true
             isPlaying = true;
 
@@ -213,20 +217,20 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     // Previous song
     public void previousSong() {
-        if (currentSong > 0) {
+        if (currentSongPosition > 0) {
             // Increment to next song
-            currentSong--;
+            currentSongPosition--;
             // Get instance of current song
-            Song song = songsArray.get(currentSong);
+            currentSong = songsArray.get(currentSongPosition);
             mediaPlayer.reset();
             try {
-                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+                mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             mediaPlayer.prepareAsync();
             // Set notification
-            setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+            setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
             // Set is playing to true
             isPlaying = true;
 
