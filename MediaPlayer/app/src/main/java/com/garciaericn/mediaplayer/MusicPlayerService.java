@@ -140,6 +140,20 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return currentSong;
     }
 
+    public int getCurrentSongDurration() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getDuration();
+        }
+        return 0;
+    }
+
+    public int getCurrentSongPosition() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+
     // Start media player
     public void playMedia(){
         // Prepare MP

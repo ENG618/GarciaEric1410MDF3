@@ -13,11 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
+
+import java.util.TimerTask;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Full Sail University
@@ -31,8 +36,9 @@ public class AudioPlayerFragment extends Fragment
 
     public static final String TAG = "AudioPlayerFragment.TAG";
 
-    MusicPlayerService musicPlayerService;
-    boolean mBound;
+    private MusicPlayerService musicPlayerService;
+    private boolean mBound;
+    private Handler handler;
 
     public AudioPlayerFragment() {
 
@@ -40,6 +46,12 @@ public class AudioPlayerFragment extends Fragment
 
     public static AudioPlayerFragment newInstance() {
         return new AudioPlayerFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler();
     }
 
     @Override
@@ -90,7 +102,26 @@ public class AudioPlayerFragment extends Fragment
     }
 
     private void updateSeekBar() {
-        // TODO: Create thread to update every second and update seekBar.
+        final SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
+
+        if (seekBar != null && musicPlayerService != null) {
+            seekBar.setMax(musicPlayerService.getCurrentSongDurration());
+
+            // TODO: Create thread to update every second and update seekBar.
+            new Thread(new TimerTask() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < musicPlayerService.getCurrentSongDurration(); i++) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        seekBar.setProgress(musicPlayerService.getCurrentSongPosition());
+                    }
+                }
+            });
+        }
     }
 
     @Override
