@@ -117,7 +117,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         mPrepared = true;
 
         if(mediaPlayer != null) {
-            mediaPlayer.seekTo(mAudioPosition);
+//            mediaPlayer.seekTo(mAudioPosition);
             mediaPlayer.start();
         }
     }
@@ -156,6 +156,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
                 mediaPlayer.release();
                 mediaPlayer = null;
+                isPlaying = mPrepared = false;
             }
             mediaPlayer.prepareAsync();
         } else { // Otherwise resume media
@@ -168,9 +169,10 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         if(mediaPlayer != null && !mPrepared) {
             mediaPlayer.prepareAsync();
         } else if(mediaPlayer != null && mPrepared) {
-//                mediaPlayer.seekTo(mAudioPosition);
+//            mediaPlayer.seekTo(mAudioPosition);
+//            mediaPlayer.prepare();
             mediaPlayer.start();
-            isPlaying = mPrepared = true;
+            isPlaying = true;
         }
     }
 
@@ -187,26 +189,59 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     //Next song
     public void nextSong() {
-        // Increment to next song
-        currentSong ++;
-        // TODO: Next song start play
-        // Reset, set data, prepare Async
+        if ((songsArray.size()-1) > currentSong) {
+            // Increment to next song
+            currentSong++;
+            // Get instance of current song
+            Song song = songsArray.get(currentSong);
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.prepareAsync();
+            // Set notification
+            setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+            // Set is playing to true
+            isPlaying = true;
+
+        } else {
+            Toast.makeText(this, "On last song in list", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Previous song
     public void previousSong() {
-        // Decrement to previous song
-        currentSong --;
-        // TODO: Start player
-        // Reset, set data, prepare Async
+        if (currentSong > 0) {
+            // Increment to next song
+            currentSong--;
+            // Get instance of current song
+            Song song = songsArray.get(currentSong);
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.setDataSource(this, Uri.parse(song.getSongString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.prepareAsync();
+            // Set notification
+            setNotification(song.getSongTitle(), "Artist: " + song.getSongAuthor());
+            // Set is playing to true
+            isPlaying = true;
+
+        } else {
+            Toast.makeText(this, "On first song in list", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Stop Media
     public void stopMedia() {
         if(mediaPlayer != null) {
             mediaPlayer.stop();
-            isPlaying = false;
-            releaseMediaPlayer();
+            isPlaying = mPrepared = false;
+
+//            releaseMediaPlayer();
         }
     }
 
