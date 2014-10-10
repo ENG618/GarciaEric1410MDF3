@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -98,6 +99,9 @@ public class AudioPlayerFragment extends Fragment
 
             TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
             artistTV.setText(song.getSongAuthor());
+
+            ImageView albumView = (ImageView) getView().findViewById(R.id.albumArt);
+            albumView.setImageResource(song.getAlbumArtResourse());
         }
     }
 

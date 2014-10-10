@@ -1,5 +1,7 @@
 package com.garciaericn.mediaplayer;
 
+import android.graphics.Bitmap;
+
 /**
  * Full Sail University
  * Mobile Development BS
@@ -10,11 +12,15 @@ public class Song {
     private String songString;
     private String songTitle;
     private String songAuthor;
+    private int albumArtResourse;
+    private Bitmap albumArt;
 
-    public Song(String songURI, String songTitle, String songAuthor) {
+    public Song(String songURI, String songTitle, String songAuthor, int albumArtResourse, Bitmap albumArt) {
         this.songString = songURI;
         this.songTitle = songTitle;
         this.songAuthor = songAuthor;
+        this.albumArtResourse = albumArtResourse;
+        this.albumArt = albumArt;
     }
 
     /**
@@ -43,5 +49,21 @@ public class Song {
 
     public void setSongAuthor(String songAuthor) {
         this.songAuthor = songAuthor;
+    }
+
+    public Bitmap getAlbumArt() {
+        return albumArt;
+    }
+
+    public int getAlbumArtResourse() {
+        return albumArtResourse;
+    }
+
+    public void setAlbumArtResourse(int albumArtResourse) {
+        this.albumArtResourse = albumArtResourse;
+    }
+
+    public void setAlbumArt(Bitmap albumArt) {
+        this.albumArt = albumArt;
     }
 }

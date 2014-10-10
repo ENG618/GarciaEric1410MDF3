@@ -2,6 +2,7 @@ package com.garciaericn.mediaplayer;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -57,9 +58,9 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             songsArray = new ArrayList<Song>();
 
             // Add songs to array via Song object
-            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod"));
-            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod"));
-            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod"));
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.blown_away, "Blown Away", "Kevin MacLeod", R.drawable.albumart1, BitmapFactory.decodeResource(getResources(), R.drawable.albumart1)));
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.carefree, "Carefree", "Kevin MacLeod", R.drawable.albumart2, BitmapFactory.decodeResource(getResources(), R.drawable.albumart2)));
+            songsArray.add(new Song("android.resource://" + getPackageName() + "/" + R.raw.master_of_the_feast, "Master of the Feast", "Kevin MacLeod", R.drawable.albumart3, BitmapFactory.decodeResource(getResources(), R.drawable.albumart3)));
         }
 
         // Create and cache binder
