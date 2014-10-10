@@ -44,6 +44,9 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
+        if (mediaPlayer != null) {
+            mediaPlayer.isLooping();
+        }
     }
 
     @Override
@@ -142,7 +145,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         mPrepared = true;
 
         if(mediaPlayer != null) {
-//            mediaPlayer.seekTo(mAudioPosition);
             mediaPlayer.start();
         }
     }
@@ -212,7 +214,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         if(mediaPlayer != null && !mPrepared) {
             mediaPlayer.prepareAsync();
         } else if(mediaPlayer != null && mPrepared) {
-//            mediaPlayer.seekTo(mAudioPosition);
             mediaPlayer.start();
             isPlaying = true;
         }
@@ -255,7 +256,8 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         } else if (!repeat && shuffle) {
             // TODO: Play random song
         } else if (repeat) {
-            // TODO: Play same song over
+            // Get instance of current song
+            repeatCurrentSong();
         }
     }
 
@@ -282,11 +284,28 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             } else {
                 Toast.makeText(this, "On first song in list", Toast.LENGTH_SHORT).show();
             }
-        } else if (!repeat && shuffle) {
+        } else if (!repeat && shuffle) { // Shuffle song
             // TODO: Play random song
-        } else if (repeat) {
-            // TODO: Play same song over
+        } else if (repeat) { // Repeat current song
+            repeatCurrentSong();
         }
+    }
+
+    private void repeatCurrentSong() {
+        // Get instance of current song
+        mediaPlayer.stop();
+        currentSong = songsArray.get(currentSongPosition);
+        mediaPlayer.reset();
+        try {
+            mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.prepareAsync();
+        // Set notification
+        setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
+        // Set is playing to true
+        isPlaying = true;
     }
 
     // Stop Media
@@ -319,4 +338,4 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         mPrepared = isPlaying = false;
         return false;
     }
- }
+}
