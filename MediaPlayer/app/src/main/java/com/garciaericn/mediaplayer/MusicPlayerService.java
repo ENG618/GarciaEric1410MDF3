@@ -35,6 +35,16 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     private int currentSongPosition;
     public boolean isPlaying;
     private int mAudioPosition;
+    private boolean shuffle;
+    private boolean random;
+
+    public void setShuffle(boolean shuffle) {
+        this.shuffle = shuffle;
+    }
+
+    public void setRandom(boolean random) {
+        this.random = random;
+    }
 
 
     public class MusicPlayerBinder extends Binder {

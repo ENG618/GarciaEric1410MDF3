@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.garciaericn.mediaplayer.MusicPlayerService;
@@ -33,7 +35,7 @@ import java.util.logging.LogRecord;
 
 public class AudioPlayerFragment extends Fragment
         implements View.OnClickListener,
-        ServiceConnection {
+        ServiceConnection, CompoundButton.OnCheckedChangeListener {
 
     public static final String TAG = "AudioPlayerFragment.TAG";
 
@@ -53,6 +55,8 @@ public class AudioPlayerFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        handler = new Handler();
+
+
     }
 
     @Override
@@ -74,6 +78,12 @@ public class AudioPlayerFragment extends Fragment
 
         ImageButton nextButton = (ImageButton) view.findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
+
+        Switch repeatSwitch = (Switch) view.findViewById(R.id.repeatSwitch);
+        repeatSwitch.setOnCheckedChangeListener(this);
+
+        Switch shuffleSwitch = (Switch) view.findViewById(R.id.shuffleSwitch);
+        shuffleSwitch.setOnCheckedChangeListener(this);
 
         return view;
     }
@@ -131,11 +141,30 @@ public class AudioPlayerFragment extends Fragment
     }
 
     @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.shuffleSwitch : {
+                if (musicPlayerService != null) {
+                    musicPlayerService.setShuffle(isChecked);
+                }
+            }
+            case R.id.repeatSwitch : {
+                if (musicPlayerService != null) {
+                    musicPlayerService.setRandom(isChecked);
+                }
+            }
+            default:break;
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         // Create intent to start service
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         // Capture instance of button
         ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
+        Switch shuffleSwitch = (Switch) getView().findViewById(R.id.shuffleSwitch);
+        Switch repeatSwitch = (Switch) getView().findViewById(R.id.repeatSwitch);
 
         // Handle media player controls
         switch (v.getId()) {
@@ -197,6 +226,8 @@ public class AudioPlayerFragment extends Fragment
                 break;
 
             case R.id.previousButton:
+
+
                 Log.i(TAG, "Previous button pressed");
                 musicPlayerService.previousSong();
                 setInfo();
