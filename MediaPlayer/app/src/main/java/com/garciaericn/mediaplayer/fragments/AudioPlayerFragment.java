@@ -120,13 +120,13 @@ public class AudioPlayerFragment extends Fragment
         final SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
 
         if (seekBar != null && musicPlayerService != null) {
-            seekBar.setMax(musicPlayerService.getCurrentSongDurration());
+            seekBar.setMax(musicPlayerService.getCurrentSongDuration());
 
             // TODO: Create thread to update every second and update seekBar.
             new Thread(new TimerTask() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < musicPlayerService.getCurrentSongDurration(); i++) {
+                    for (int i = 0; i < musicPlayerService.getCurrentSongDuration(); i++) {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {

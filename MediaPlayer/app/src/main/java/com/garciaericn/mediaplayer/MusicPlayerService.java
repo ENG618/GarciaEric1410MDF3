@@ -115,7 +115,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         startForeground(FOREGROUND_NOTIFICATION, builder.build());
     }
 
-    private void dissmissNotification() {
+    private void dismissNotification() {
         stopForeground(true);
         NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mgr.cancel(FOREGROUND_NOTIFICATION);
@@ -165,7 +165,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return currentSong;
     }
 
-    public int getCurrentSongDurration() {
+    public int getCurrentSongDuration() {
         if (mediaPlayer != null) {
             return mediaPlayer.getDuration();
         }
@@ -294,7 +294,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         if(mediaPlayer != null) {
             mediaPlayer.stop();
             isPlaying = false;
-            dissmissNotification();
+            dismissNotification();
             releaseMediaPlayer();
         }
     }
