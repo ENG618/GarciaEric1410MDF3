@@ -1,6 +1,8 @@
 package com.garciaericn.mediaplayer;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -89,12 +91,19 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     private void setNotification(String title, String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_action_play)
+                .setLargeIcon(currentSong.getAlbumArt())
                 .setContentTitle(title)
                 .setContentText(content)
                 .setAutoCancel(false)
                 .setOngoing(true);
 
         startForeground(FOREGROUND_NOTIFICATION, builder.build());
+    }
+
+    private void dissmissNotification() {
+        stopForeground(true);
+        NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mgr.cancel(FOREGROUND_NOTIFICATION);
     }
 
     @Override
@@ -189,7 +198,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             mediaPlayer.prepareAsync();
         } else if(mediaPlayer != null && mPrepared) {
 //            mediaPlayer.seekTo(mAudioPosition);
-//            mediaPlayer.prepare();
             mediaPlayer.start();
             isPlaying = true;
         }
@@ -258,20 +266,18 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     public void stopMedia() {
         if(mediaPlayer != null) {
             mediaPlayer.stop();
-            isPlaying = mPrepared = false;
-
-//            releaseMediaPlayer();
+            isPlaying = false;
+            dissmissNotification();
+            releaseMediaPlayer();
         }
     }
 
     // Release media player
     public void releaseMediaPlayer() {
         if(mediaPlayer != null && isPlaying) {
-            mediaPlayer.stop();
             mPrepared = false;
-            stopForeground(true);
+//            stopForeground(true);
             mediaPlayer.release();
-
         }
     }
 

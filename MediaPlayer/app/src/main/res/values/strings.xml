@@ -15,5 +15,7 @@
     <string name="label_title">Song Title: </string>
     <string name="button_next">Next</string>
     <string name="album_art">Album Art</string>
+    <string name="switch_repeat">Repeat</string>
+    <string name="switch_shuffle">Shuffle</string>
 
 </resources>
