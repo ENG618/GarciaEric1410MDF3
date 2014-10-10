@@ -7,11 +7,15 @@ Full Sail | MDVBS
 
 Week 1: Service Fundamentals Part 1
 * [Project 1](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
-* [Video review](http://youtu.be/3geaQOdYG1Y)
+* [Video revieww](http://youtu.be/3geaQOdYG1Y)
 
 Week 2: Service Fundamentals Part 2
-* Due 10/9
+* [Project 2](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
 * [Video review - to be posted](http:templink)
+* Updated from project 1
+1. Moved media player to service
+2. Successfully started & bound to service
+3. Displayed notification in foreground when while music is playing
 
 Week 3: Building a Widget
 * Due 10/16
