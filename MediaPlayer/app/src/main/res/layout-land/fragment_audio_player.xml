@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/title_audio_player"
+        android:id="@+id/titleAudioPlayer"
+        android:padding="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:padding="16dp"
+        android:id="@+id/albumArt"
+        android:src="@drawable/albumart1"
+        android:layout_toStartOf="@+id/seekBar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/album_art" />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailsTable"
+        android:layout_below="@+id/titleAudioPlayer"
+        android:layout_alignLeft="@+id/controls"
+        android:layout_alignStart="@+id/controls">
+
+        <TableRow android:padding="10dp">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_title"
+                android:id="@+id/titleLabel" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:id="@+id/titleTV"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingLeft="5dp" />
+        </TableRow>
+
+        <TableRow android:padding="10dp">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_author"
+                android:id="@+id/authorLabel" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:id="@+id/authorTV"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingLeft="5dp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_above="@+id/controls"
+        android:layout_alignLeft="@+id/controls"
+        android:layout_alignStart="@+id/controls" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/controls"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/titleAudioPlayer"
+        android:layout_alignStart="@+id/titleAudioPlayer"
+        android:layout_marginBottom="67dp">
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_action_previous"
+            android:contentDescription="@string/button_previous"
+            android:id="@+id/previousButton"
+            android:background="@android:color/background_dark" />
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/ic_action_stop"
+            android:contentDescription="@string/button_stop"
+            android:id="@+id/stopButton"
+            android:background="@android:color/background_dark" />
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:src="@drawable/ic_action_play"
+            android:contentDescription="@string/button_play"
+            android:id="@+id/playButton"
+            android:background="@android:color/background_dark" />
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_action_next"
+            android:contentDescription="@string/button_next"
+            android:id="@+id/nextButton"
+            android:background="@android:color/background_dark" />
+
+    </LinearLayout>
+
+</RelativeLayout>
