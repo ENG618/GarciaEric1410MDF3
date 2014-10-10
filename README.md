@@ -10,7 +10,6 @@ Full Sail | MDVBS
 Week 1: Service Fundamentals Part 1
 * [Project 1: Media Player](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
 * [Video review](http://youtu.be/3geaQOdYG1Y)
-* [Project repo: Media Player](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
 
 Week 2: Service Fundamentals Part 2
 * [Project 2: Media Player](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
