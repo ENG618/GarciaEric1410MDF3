@@ -25,7 +25,6 @@ import com.garciaericn.mediaplayer.Song;
 
 import java.util.TimerTask;
 import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Full Sail University
@@ -150,7 +149,7 @@ public class AudioPlayerFragment extends Fragment
             }
             case R.id.repeatSwitch : {
                 if (musicPlayerService != null) {
-                    musicPlayerService.setRandom(isChecked);
+                    musicPlayerService.setRepeat(isChecked);
                 }
             }
             default:break;

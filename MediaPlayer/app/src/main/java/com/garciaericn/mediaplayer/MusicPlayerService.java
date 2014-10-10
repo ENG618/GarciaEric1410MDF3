@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
-public class MusicPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
+public class MusicPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
     private static final String TAG = "MusicPlayerService.TAG";
     private static final int FOREGROUND_NOTIFICATION = 0x323d55;
@@ -36,14 +36,19 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     public boolean isPlaying;
     private int mAudioPosition;
     private boolean shuffle;
-    private boolean random;
+    private boolean repeat;
 
     public void setShuffle(boolean shuffle) {
         this.shuffle = shuffle;
     }
 
-    public void setRandom(boolean random) {
-        this.random = random;
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        nextSong();
     }
 
 
@@ -226,49 +231,61 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     //Next song
     public void nextSong() {
-        if ((songsArray.size()-1) > currentSongPosition) {
-            // Increment to next song
-            currentSongPosition++;
-            // Get instance of current song
-            currentSong = songsArray.get(currentSongPosition);
-            mediaPlayer.reset();
-            try {
-                mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mediaPlayer.prepareAsync();
-            // Set notification
-            setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
-            // Set is playing to true
-            isPlaying = true;
+        if (!shuffle && !repeat) {
+            if ((songsArray.size()-1) > currentSongPosition) {
+                // Increment to next song
+                currentSongPosition++;
+                // Get instance of current song
+                currentSong = songsArray.get(currentSongPosition);
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.prepareAsync();
+                // Set notification
+                setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
+                // Set is playing to true
+                isPlaying = true;
 
-        } else {
-            Toast.makeText(this, "On last song in list", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "On last song in list", Toast.LENGTH_SHORT).show();
+            }
+        } else if (!repeat && shuffle) {
+            // TODO: Play random song
+        } else if (repeat) {
+            // TODO: Play same song over
         }
     }
 
     // Previous song
     public void previousSong() {
-        if (currentSongPosition > 0) {
-            // Increment to next song
-            currentSongPosition--;
-            // Get instance of current song
-            currentSong = songsArray.get(currentSongPosition);
-            mediaPlayer.reset();
-            try {
-                mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mediaPlayer.prepareAsync();
-            // Set notification
-            setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
-            // Set is playing to true
-            isPlaying = true;
+        if (!shuffle && !repeat) {
+            if (currentSongPosition > 0) {
+                // Increment to next song
+                currentSongPosition--;
+                // Get instance of current song
+                currentSong = songsArray.get(currentSongPosition);
+                mediaPlayer.reset();
+                try {
+                    mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.prepareAsync();
+                // Set notification
+                setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
+                // Set is playing to true
+                isPlaying = true;
 
-        } else {
-            Toast.makeText(this, "On first song in list", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "On first song in list", Toast.LENGTH_SHORT).show();
+            }
+        } else if (!repeat && shuffle) {
+            // TODO: Play random song
+        } else if (repeat) {
+            // TODO: Play same song over
         }
     }
 
