@@ -10,10 +10,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/title_audio_player"
         android:id="@+id/titleAudioPlayer"
-        android:padding="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"/>
 
     <ImageView
         android:layout_width="250dp"
@@ -73,28 +72,48 @@
 
     </TableLayout>
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_above="@+id/seekBar"
-        android:layout_toRightOf="@+id/albumArt">
+        android:layout_toRightOf="@+id/albumArt"
+        android:layout_toEndOf="@+id/albumArt">
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_shuffle"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp" />
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_shuffle"
-            android:id="@+id/shuffleSwitch"
-            android:padding="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_repeat"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp" />
+        </TableRow>
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_repeat"
-            android:id="@+id/repeatSwitch"
-            android:padding="10dp" />
+        <TableRow>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shuffleSwitch"
+                android:padding="10dp" />
 
-    </LinearLayout>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/repeatSwitch"
+                android:padding="10dp" />
+        </TableRow>
+    </TableLayout>
 
     <SeekBar
         android:layout_width="match_parent"

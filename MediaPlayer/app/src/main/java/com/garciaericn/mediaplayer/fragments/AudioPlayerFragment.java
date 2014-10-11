@@ -102,6 +102,7 @@ public class AudioPlayerFragment extends Fragment
                 activity.getApplicationContext().bindService(intent, this, Context.BIND_AUTO_CREATE);
             }
         }
+        setInfo();
     }
 
     @Override
@@ -152,8 +153,6 @@ public class AudioPlayerFragment extends Fragment
 
     @Override
     public void onClick(View v) {
-        // Create intent to start service
-        Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         // Capture instance of button
         ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
 
@@ -230,16 +229,18 @@ public class AudioPlayerFragment extends Fragment
     }
 
     private void setInfo() {
-        Song song = musicPlayerService.getCurrentSong();
-        if (song != null) {
-            TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
-            songTV.setText(song.getSongTitle());
+        if (musicPlayerService != null) {
+            Song song = musicPlayerService.getCurrentSong();
+            if (song != null) {
+                TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
+                songTV.setText(song.getSongTitle());
 
-            TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
-            artistTV.setText(song.getSongAuthor());
+                TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
+                artistTV.setText(song.getSongAuthor());
 
-            ImageView albumView = (ImageView) getView().findViewById(R.id.albumArt);
-            albumView.setImageResource(song.getAlbumArtResourse());
+                ImageView albumView = (ImageView) getView().findViewById(R.id.albumArt);
+                albumView.setImageResource(song.getAlbumArtResourse());
+            }
         }
     }
 
@@ -251,8 +252,6 @@ public class AudioPlayerFragment extends Fragment
     public void onServiceConnected(ComponentName name, IBinder service) {
         MusicPlayerService.MusicPlayerBinder binder = (MusicPlayerService.MusicPlayerBinder) service;
         musicPlayerService = binder.getService();
-        musicPlayerService.playMedia();
-        setInfo();
         mBound = true;
     }
 
