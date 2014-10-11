@@ -38,23 +38,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     private boolean shuffle;
     private boolean repeat;
 
-    public void setShuffle(boolean shuffle) {
-        this.shuffle = shuffle;
-    }
-
-    public void setRepeat(boolean repeat) {
-        this.repeat = repeat;
-        if (mediaPlayer != null) {
-            mediaPlayer.isLooping();
-        }
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        nextSong();
-    }
-
-
     public class MusicPlayerBinder extends Binder {
         public MusicPlayerService getService() {
             return MusicPlayerService.this;
@@ -106,6 +89,24 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return Service.START_STICKY;
     }
 
+    @Override
+    public void onDestroy() {
+        Toast.makeText(this, "Service Stopped", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        Toast.makeText(this, "Service Bound", Toast.LENGTH_SHORT).show();
+        return musicPlayerBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Toast.makeText(this, "Service Unbound", Toast.LENGTH_SHORT).show();
+        return super.onUnbind(intent);
+    }
+
     private void setNotification(String title, String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_action_play)
@@ -124,18 +125,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         mgr.cancel(FOREGROUND_NOTIFICATION);
     }
 
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, "Service Stopped", Toast.LENGTH_SHORT).show();
-        super.onDestroy();
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        Toast.makeText(this, "Service Bound", Toast.LENGTH_SHORT).show();
-        return musicPlayerBinder;
-    }
-
     /**
      * Media Player onPreparedListener
      * */
@@ -150,12 +139,28 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     }
 
     /**
-     * Player Methods
+     * Player Methods Helper Methods
      * */
+
+    public void setShuffle(boolean shuffle) {
+        this.shuffle = shuffle;
+    }
+
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
+        if (mediaPlayer != null) {
+            mediaPlayer.isLooping();
+        }
+    }
 
     // Verify is media is currently playing
     public boolean isPlaying() {
         return isPlaying;
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        nextSong();
     }
 
     // Verify if player is prepared
@@ -181,7 +186,11 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         return 0;
     }
 
-    // Start media player
+    /**
+     * Player Methods
+     * */
+
+     // Start media player
     public void playMedia(){
         // Prepare MP
         if (mediaPlayer != null && songsArray != null && !isPrepared()) {
@@ -209,16 +218,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         }
     }
 
-    // Resume playing
-    public void resumeMedia() {
-        if(mediaPlayer != null && !mPrepared) {
-            mediaPlayer.prepareAsync();
-        } else if(mediaPlayer != null && mPrepared) {
-            mediaPlayer.start();
-            isPlaying = true;
-        }
-    }
-
     // Pause media
     public void pauseMedia() {
         // Pause media
@@ -230,8 +229,24 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         }
     }
 
+    // Resume playing
+    public void resumeMedia() {
+        if(mediaPlayer != null && !mPrepared) {
+            mediaPlayer.prepareAsync();
+        } else if(mediaPlayer != null && mPrepared) {
+            mediaPlayer.start();
+            isPlaying = true;
+        }
+    }
+
     //Next song
     public void nextSong() {
+        if (shuffle && !repeat) {
+            //Temp toast
+            Toast.makeText(this, "Shuffle", Toast.LENGTH_SHORT).show();
+            // TODO: Play random song
+        }
+
         if (!shuffle && !repeat) {
             if ((songsArray.size()-1) > currentSongPosition) {
                 // Increment to next song
@@ -254,6 +269,8 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
                 Toast.makeText(this, "On last song in list", Toast.LENGTH_SHORT).show();
             }
         } else if (!repeat && shuffle) {
+            //Temp toast
+            Toast.makeText(this, "Shuffle", Toast.LENGTH_SHORT).show();
             // TODO: Play random song
         } else if (repeat) {
             // Get instance of current song

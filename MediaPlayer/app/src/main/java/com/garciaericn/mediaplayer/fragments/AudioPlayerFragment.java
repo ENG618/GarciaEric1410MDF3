@@ -102,20 +102,6 @@ public class AudioPlayerFragment extends Fragment
         }
     }
 
-    private void setInfo() {
-        Song song = musicPlayerService.getCurrentSong();
-        if (song != null) {
-            TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
-            songTV.setText(song.getSongTitle());
-
-            TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
-            artistTV.setText(song.getSongAuthor());
-
-            ImageView albumView = (ImageView) getView().findViewById(R.id.albumArt);
-            albumView.setImageResource(song.getAlbumArtResourse());
-        }
-    }
-
     private void updateSeekBar() {
         final SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
 
@@ -240,6 +226,20 @@ public class AudioPlayerFragment extends Fragment
 
             default:
                 break;
+        }
+    }
+
+    private void setInfo() {
+        Song song = musicPlayerService.getCurrentSong();
+        if (song != null) {
+            TextView songTV = (TextView) getView().findViewById(R.id.titleTV);
+            songTV.setText(song.getSongTitle());
+
+            TextView artistTV = (TextView) getView().findViewById(R.id.authorTV);
+            artistTV.setText(song.getSongAuthor());
+
+            ImageView albumView = (ImageView) getView().findViewById(R.id.albumArt);
+            albumView.setImageResource(song.getAlbumArtResourse());
         }
     }
 
