@@ -96,12 +96,18 @@ public class AudioPlayerFragment extends Fragment
         if (musicPlayerService == null) {
             // Create intent and start service
             Intent intent = new Intent(getActivity(), MusicPlayerService.class);
-            activity.startService(intent);
+            activity.getApplicationContext().startService(intent);
 
             if (!mBound) {
-                activity.bindService(intent, this, Context.BIND_AUTO_CREATE);
+                activity.getApplicationContext().bindService(intent, this, Context.BIND_AUTO_CREATE);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     private void updateSeekBar() {
@@ -160,13 +166,8 @@ public class AudioPlayerFragment extends Fragment
                 // Playing after Stop
                 // Check if player does not exist
                 if (musicPlayerService != null && isStopped){
-//                    getActivity().startService(intent);
-//                    if (!mBound){
-//                        getActivity().bindService(intent, this, Context.BIND_AUTO_CREATE);
-//                    }
-                    // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_pause);
-                    // Pause from service
+                    // Play from service
                     musicPlayerService.playMedia();
                     setInfo();
                     isPaused = isStopped = false;
@@ -192,12 +193,9 @@ public class AudioPlayerFragment extends Fragment
                     playPause.setImageResource(R.drawable.ic_action_play);
                     // Pause from service
                     musicPlayerService.pauseMedia();
-//                    setInfo();
                     isPaused = true;
                     break;
                 }
-
-
                 break;
 
             // Stops playback
@@ -206,10 +204,6 @@ public class AudioPlayerFragment extends Fragment
                 if (musicPlayerService != null) {
                     // Call stopMedia from service
                     musicPlayerService.stopMedia();
-                    // Stop service
-//                    getActivity().stopService(intent);
-                    // Set media player to null
-//                    musicPlayerService = null;
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
                     isStopped = true;

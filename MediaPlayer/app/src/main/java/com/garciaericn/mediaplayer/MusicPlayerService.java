@@ -53,7 +53,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
         // Set default position to 0
         mAudioPosition = 0;
         // Set is playing & prepared to false default
-        isPlaying = mPrepared = false;
+        isPlaying = mPrepared = shuffle = repeat = false;
 
         // Verify if songs array is already populated
         if (songsArray == null) {

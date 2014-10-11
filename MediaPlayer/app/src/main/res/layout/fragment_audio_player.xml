@@ -80,14 +80,16 @@
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/switch_shuffle"
+            android:textOn="Shuffle"
+            android:textOff="Shuffle Off"
             android:id="@+id/shuffleSwitch"
             android:padding="10dp" />
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/switch_repeat"
+            android:textOn="Repeat"
+            android:textOff="Repeat Off"
             android:id="@+id/repeatSwitch"
             android:padding="10dp" />
 
