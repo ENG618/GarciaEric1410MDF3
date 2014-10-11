@@ -23,7 +23,10 @@ import java.util.Random;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/5/14.
  */
-public class MusicPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+public class MusicPlayerService extends Service
+        implements MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnErrorListener {
 
     private static final String TAG = "MusicPlayerService.TAG";
     private static final int FOREGROUND_NOTIFICATION = 0x323d55;
@@ -81,6 +84,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
             mediaPlayer.setOnErrorListener(this);
             isPlaying = false;
             mPrepared = false;

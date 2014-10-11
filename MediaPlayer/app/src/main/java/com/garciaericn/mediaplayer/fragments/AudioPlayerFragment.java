@@ -25,6 +25,7 @@ import com.garciaericn.mediaplayer.Song;
 
 import java.util.TimerTask;
 import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Full Sail University
@@ -34,7 +35,9 @@ import java.util.logging.Handler;
 
 public class AudioPlayerFragment extends Fragment
         implements View.OnClickListener,
-        ServiceConnection, CompoundButton.OnCheckedChangeListener {
+        ServiceConnection,
+        CompoundButton.OnCheckedChangeListener,
+        Runnable{
 
     public static final String TAG = "AudioPlayerFragment.TAG";
 
@@ -42,10 +45,10 @@ public class AudioPlayerFragment extends Fragment
     private boolean mBound;
     private boolean isStopped;
     private boolean isPaused;
+    private SeekBar seekBar;
     private Handler handler;
 
     public AudioPlayerFragment() {
-
     }
 
     public static AudioPlayerFragment newInstance() {
@@ -55,7 +58,22 @@ public class AudioPlayerFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        handler = new Handler();
+        handler = new Handler() {
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public void flush() {
+
+            }
+
+            @Override
+            public void publish(LogRecord record) {
+
+            }
+        };
 
 
     }
@@ -67,24 +85,32 @@ public class AudioPlayerFragment extends Fragment
         //Load layout
         View view = inflater.inflate(R.layout.fragment_audio_player, container, false);
 
-        // Set onClickListeners
-        ImageButton playButton = (ImageButton) view.findViewById(R.id.playButton);
-        playButton.setOnClickListener(this);
+        if (view != null) {
+            // Set onClickListeners
+            ImageButton playButton = (ImageButton) view.findViewById(R.id.playButton);
+            playButton.setOnClickListener(this);
 
-        ImageButton stopButton = (ImageButton) view.findViewById(R.id.stopButton);
-        stopButton.setOnClickListener(this);
+            ImageButton stopButton = (ImageButton) view.findViewById(R.id.stopButton);
+            stopButton.setOnClickListener(this);
 
-        ImageButton previousButton = (ImageButton) view.findViewById(R.id.previousButton);
-        previousButton.setOnClickListener(this);
+            ImageButton previousButton = (ImageButton) view.findViewById(R.id.previousButton);
+            previousButton.setOnClickListener(this);
 
-        ImageButton nextButton = (ImageButton) view.findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(this);
+            ImageButton nextButton = (ImageButton) view.findViewById(R.id.nextButton);
+            nextButton.setOnClickListener(this);
 
-        Switch repeatSwitch = (Switch) view.findViewById(R.id.repeatSwitch);
-        repeatSwitch.setOnCheckedChangeListener(this);
+            Switch repeatSwitch = (Switch) view.findViewById(R.id.repeatSwitch);
+            repeatSwitch.setOnCheckedChangeListener(this);
 
-        Switch shuffleSwitch = (Switch) view.findViewById(R.id.shuffleSwitch);
-        shuffleSwitch.setOnCheckedChangeListener(this);
+            Switch shuffleSwitch = (Switch) view.findViewById(R.id.shuffleSwitch);
+            shuffleSwitch.setOnCheckedChangeListener(this);
+
+            if (seekBar == null) {
+                seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
+            }
+            if (musicPlayerService != null)
+                seekBar.setMax(musicPlayerService.getCurrentSongDuration());
+        }
 
         return view;
     }
@@ -112,27 +138,36 @@ public class AudioPlayerFragment extends Fragment
     }
 
     private void updateSeekBar() {
-        final SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
+        if (seekBar == null) {
+            seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
+        }
 
         if (seekBar != null && musicPlayerService != null) {
-            seekBar.setMax(musicPlayerService.getCurrentSongDuration());
-
             // TODO: Create thread to update every second and update seekBar.
-            new Thread(new TimerTask() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < musicPlayerService.getCurrentSongDuration(); i++) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        seekBar.setProgress(musicPlayerService.getCurrentSongPosition());
-                    }
-                }
-            });
+            run();
         }
     }
+
+    @Override
+    public void run() {
+
+        int currentPosition = musicPlayerService.getCurrentSongPosition();
+        int duration = musicPlayerService.getCurrentSongDuration();
+
+        while (musicPlayerService!=null && currentPosition < duration) {
+            try {
+                Thread.sleep(1000);
+                currentPosition = musicPlayerService.getCurrentSongPosition();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
+            }
+            seekBar.setProgress(currentPosition);
+        }
+
+    }
+
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -170,6 +205,7 @@ public class AudioPlayerFragment extends Fragment
                     musicPlayerService.playMedia();
                     setInfo();
                     isPaused = isStopped = false;
+                    updateSeekBar();
                     break;
                 }
 
@@ -181,7 +217,8 @@ public class AudioPlayerFragment extends Fragment
                     // Call resume from service
                     musicPlayerService.playMedia();
                     setInfo();
-                    isPaused = false;
+                    isPaused = isStopped = false;
+                    updateSeekBar();
                     break;
                 }
 
