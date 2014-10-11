@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Full Sail University
@@ -241,12 +242,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     //Next song
     public void nextSong() {
-        if (shuffle && !repeat) {
-            //Temp toast
-            Toast.makeText(this, "Shuffle", Toast.LENGTH_SHORT).show();
-            // TODO: Play random song
-        }
-
         if (!shuffle && !repeat) {
             if ((songsArray.size()-1) > currentSongPosition) {
                 // Increment to next song
@@ -268,11 +263,13 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
             } else {
                 Toast.makeText(this, "On last song in list", Toast.LENGTH_SHORT).show();
             }
-        } else if (!repeat && shuffle) {
-            //Temp toast
-            Toast.makeText(this, "Shuffle", Toast.LENGTH_SHORT).show();
-            // TODO: Play random song
-        } else if (repeat) {
+        }
+
+        if (!repeat && shuffle) {
+            playRandomSong();
+        }
+
+        if (repeat) {
             // Get instance of current song
             repeatCurrentSong();
         }
@@ -302,7 +299,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
                 Toast.makeText(this, "On first song in list", Toast.LENGTH_SHORT).show();
             }
         } else if (!repeat && shuffle) { // Shuffle song
-            // TODO: Play random song
+            playRandomSong();
         } else if (repeat) { // Repeat current song
             repeatCurrentSong();
         }
@@ -310,6 +307,28 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     private void repeatCurrentSong() {
         // Get instance of current song
+        mediaPlayer.stop();
+        currentSong = songsArray.get(currentSongPosition);
+        mediaPlayer.reset();
+        try {
+            mediaPlayer.setDataSource(this, Uri.parse(currentSong.getSongString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.prepareAsync();
+        // Set notification
+        setNotification(currentSong.getSongTitle(), "Artist: " + currentSong.getSongAuthor());
+        // Set is playing to true
+        isPlaying = true;
+    }
+
+    private void playRandomSong() {
+        int min = 0;
+        int max = songsArray.size() - 1;
+
+        Random random = new Random();
+        currentSongPosition = random.nextInt((max - min)+1);
+
         mediaPlayer.stop();
         currentSong = songsArray.get(currentSongPosition);
         mediaPlayer.reset();
