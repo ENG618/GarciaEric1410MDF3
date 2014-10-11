@@ -17,5 +17,6 @@
     <string name="album_art">Album Art</string>
     <string name="switch_repeat">Repeat</string>
     <string name="switch_shuffle">Shuffle</string>
+    <string name="content_description_album_art">Album Art</string>
 
 </resources>
