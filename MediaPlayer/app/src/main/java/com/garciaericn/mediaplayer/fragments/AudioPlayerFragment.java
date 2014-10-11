@@ -40,6 +40,8 @@ public class AudioPlayerFragment extends Fragment
 
     private MusicPlayerService musicPlayerService;
     private boolean mBound;
+    private boolean isStopped;
+    private boolean isPaused;
     private Handler handler;
 
     public AudioPlayerFragment() {
@@ -148,17 +150,16 @@ public class AudioPlayerFragment extends Fragment
         Intent intent = new Intent(getActivity(), MusicPlayerService.class);
         // Capture instance of button
         ImageButton playPause = (ImageButton) getView().findViewById(R.id.playButton);
-        Switch shuffleSwitch = (Switch) getView().findViewById(R.id.shuffleSwitch);
-        Switch repeatSwitch = (Switch) getView().findViewById(R.id.repeatSwitch);
 
         // Handle media player controls
         switch (v.getId()) {
+            // Play-Pause song
             case R.id.playButton:
                 Log.i(TAG, "Play/Pause button pressed");
 
                 // Playing after Stop
                 // Check if player does not exist
-                if (musicPlayerService == null){
+                if (musicPlayerService != null && isStopped){
 //                    getActivity().startService(intent);
 //                    if (!mBound){
 //                        getActivity().bindService(intent, this, Context.BIND_AUTO_CREATE);
@@ -166,8 +167,9 @@ public class AudioPlayerFragment extends Fragment
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_pause);
                     // Pause from service
-//                    musicPlayerService.playMedia();
+                    musicPlayerService.playMedia();
                     setInfo();
+                    isPaused = isStopped = false;
                     break;
                 }
 
@@ -179,6 +181,7 @@ public class AudioPlayerFragment extends Fragment
                     // Call resume from service
                     musicPlayerService.playMedia();
                     setInfo();
+                    isPaused = false;
                     break;
                 }
 
@@ -190,34 +193,37 @@ public class AudioPlayerFragment extends Fragment
                     // Pause from service
                     musicPlayerService.pauseMedia();
 //                    setInfo();
+                    isPaused = true;
                     break;
                 }
 
 
                 break;
 
+            // Stops playback
             case R.id.stopButton:
                 Log.i(TAG, "Stop button pressed");
                 if (musicPlayerService != null) {
                     // Call stopMedia from service
                     musicPlayerService.stopMedia();
                     // Stop service
-                getActivity().stopService(intent);
+//                    getActivity().stopService(intent);
                     // Set media player to null
 //                    musicPlayerService = null;
                     // Change pause button to play
                     playPause.setImageResource(R.drawable.ic_action_play);
+                    isStopped = true;
                 }
                 break;
 
+            // Plays previous song
             case R.id.previousButton:
-
-
                 Log.i(TAG, "Previous button pressed");
                 musicPlayerService.previousSong();
                 setInfo();
                 break;
 
+            // Plays next song
             case R.id.nextButton:
                 Log.i(TAG, "Next button pressed");
                 musicPlayerService.nextSong();

@@ -193,7 +193,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
      // Start media player
     public void playMedia(){
         // Prepare MP
-        if (mediaPlayer != null && songsArray != null && !isPrepared()) {
+        if (mediaPlayer != null && songsArray != null && !mPrepared) {
 
             try {
                 // Get instance of current song
@@ -337,10 +337,9 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
 
     // Release media player
     public void releaseMediaPlayer() {
-        if(mediaPlayer != null && isPlaying) {
+        if(mediaPlayer != null) {
             mPrepared = false;
-//            stopForeground(true);
-            mediaPlayer.release();
+            mediaPlayer.reset();
         }
     }
 
