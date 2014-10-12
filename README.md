@@ -13,7 +13,7 @@ Week 1: Service Fundamentals Part 1
 
 Week 2: Service Fundamentals Part 2
 * [Project 2: Media Player](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/MediaPlayer)
-* Video review to be posted.
+* [Video review](http://youtu.be/WAevEFvTWLU)
 * Updated from project 1:
 	* Moved media player to service
 	* Successfully started & bound to service

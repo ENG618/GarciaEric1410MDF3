@@ -56,29 +56,6 @@ public class AudioPlayerFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        handler = new Handler() {
-            @Override
-            public void close() {
-
-            }
-
-            @Override
-            public void flush() {
-
-            }
-
-            @Override
-            public void publish(LogRecord record) {
-
-            }
-        };
-
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView entered");
 
@@ -105,9 +82,9 @@ public class AudioPlayerFragment extends Fragment
             Switch shuffleSwitch = (Switch) view.findViewById(R.id.shuffleSwitch);
             shuffleSwitch.setOnCheckedChangeListener(this);
 
-            if (seekBar == null) {
-                seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
-            }
+//            if (seekBar == null) {
+//                seekBar = (SeekBar) getView().findViewById(R.id.seekBar);
+//            }
             if (musicPlayerService != null)
                 seekBar.setMax(musicPlayerService.getCurrentSongDuration());
         }
@@ -205,7 +182,7 @@ public class AudioPlayerFragment extends Fragment
                     musicPlayerService.playMedia();
                     setInfo();
                     isPaused = isStopped = false;
-                    updateSeekBar();
+//                    updateSeekBar();
                     break;
                 }
 
@@ -218,7 +195,7 @@ public class AudioPlayerFragment extends Fragment
                     musicPlayerService.playMedia();
                     setInfo();
                     isPaused = isStopped = false;
-                    updateSeekBar();
+//                    updateSeekBar();
                     break;
                 }
 
