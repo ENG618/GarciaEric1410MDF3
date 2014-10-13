@@ -1,6 +1,7 @@
 package com.garciaericn.mediaplayer;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.garciaericn.mediaplayer.activities.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class MusicPlayerService extends Service
 
     private static final String TAG = "MusicPlayerService.TAG";
     private static final int FOREGROUND_NOTIFICATION = 0x323d55;
+    private static final int REQUEST_NOTIFY_LAUNCH = 0X543d34;
 
     private MusicPlayerBinder musicPlayerBinder;
     private MediaPlayer mediaPlayer;
@@ -113,6 +117,21 @@ public class MusicPlayerService extends Service
     }
 
     private void setNotification(String title, String content) {
+
+        // API 16 required for this style pending intent, with TaskStackBuilder
+//        // Create intent for activity
+//        Intent intent = new Intent(this, MainActivity.class);
+//
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(intent);
+//
+//        PendingIntent mainPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_NOTIFY_LAUNCH, intent, 0);
+
+        // Build Notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_action_play)
                 .setLargeIcon(currentSong.getAlbumArt())
@@ -120,6 +139,11 @@ public class MusicPlayerService extends Service
                 .setContentText(content)
                 .setAutoCancel(false)
                 .setOngoing(true);
+
+        builder.setContentIntent(pendingIntent);
+
+        // API 16 required for this call
+//        builder.setContentIntent(mainPendingIntent);
 
         startForeground(FOREGROUND_NOTIFICATION, builder.build());
     }

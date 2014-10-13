@@ -23,9 +23,7 @@ import com.garciaericn.mediaplayer.MusicPlayerService;
 import com.garciaericn.mediaplayer.R;
 import com.garciaericn.mediaplayer.Song;
 
-import java.util.TimerTask;
 import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Full Sail University
@@ -104,8 +102,11 @@ public class AudioPlayerFragment extends Fragment
             if (!mBound) {
                 activity.getApplicationContext().bindService(intent, this, Context.BIND_AUTO_CREATE);
             }
+        } else {
+            if (musicPlayerService.isPlaying) {
+                setInfo();
+            }
         }
-        setInfo();
     }
 
     @Override
