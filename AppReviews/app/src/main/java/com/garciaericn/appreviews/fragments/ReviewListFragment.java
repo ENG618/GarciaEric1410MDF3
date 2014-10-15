@@ -90,7 +90,6 @@ public class ReviewListFragment extends ListFragment {
      * ReviewListFragment
      * Interface
      * */
-
      public interface OnFragmentInteractionListener {
         public void onItemSelected(Review review);
     }
