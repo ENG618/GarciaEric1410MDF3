@@ -19,6 +19,8 @@ public class Review implements Serializable{
     public static final String STARS_EARNED = "com.garciaericn.appreviews.STARSEARNED";
     public static final String REVIEW_SUMMARY = "com.garciaericn.appreviews.REVIEWSUMMARY";
     public static final String REVIEW_KEY = "com.garciaericn.appreviews.REVIEWKEY";
+    public static final String BUNDLED_REVIEW = "com.garciaericn.reviewsapp.data.Review.BUNDLEDREVIEW";
+    public static final String REVIEW = "com.garciaericn.reviewsapp.data.Review.review";
 
     // Privet fields
     private String reviewTitle;

@@ -1,6 +1,7 @@
 package com.garciaericn.appreviews;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ public class ReviewListActivity extends Activity
         implements ReviewListFragment.OnFragmentInteractionListener, ReviewDetailFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "ReviewListActivity.TAG";
+    private static final int REQUESTCODE = 1001;
     private ArrayList<Review> reviewArrayList;
 
 
@@ -81,6 +83,12 @@ public class ReviewListActivity extends Activity
         Toast.makeText(this, review.getReviewTitle() + " was selected", Toast.LENGTH_SHORT).show();
 
         // TODO: Create intent and launch ReviewDetailActivity
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Review.REVIEW, review);
+
+        Intent intent = new Intent(this, ReviewDetailActivity.class);
+        intent.putExtra(Review.BUNDLED_REVIEW, bundle);
+        startActivityForResult(intent, REQUESTCODE);
     }
 
     // Interface from ReviewDetailFragment
