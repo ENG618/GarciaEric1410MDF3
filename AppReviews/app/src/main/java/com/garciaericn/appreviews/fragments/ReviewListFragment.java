@@ -56,8 +56,8 @@ public class ReviewListFragment extends ListFragment {
 
         // Set adapter to list
         setListAdapter(new ReviewArrayAdapter(getActivity(), R.layout.review_item, reviewArrayList));
-    }
 
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

@@ -8,14 +8,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.garciaericn.appreviews.data.Review;
+import com.garciaericn.appreviews.fragments.ReviewDetailFragment;
 import com.garciaericn.appreviews.fragments.ReviewListFragment;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity implements ReviewListFragment.OnFragmentInteractionListener {
+public class ReviewListActivity extends Activity
+        implements ReviewListFragment.OnFragmentInteractionListener, ReviewDetailFragment.OnFragmentInteractionListener {
 
-    private static final String TAG = "MainActivity.TAG";
+    private static final String TAG = "ReviewListActivity.TAG";
     private ArrayList<Review> reviewArrayList;
 
 
@@ -69,8 +71,21 @@ public class MainActivity extends Activity implements ReviewListFragment.OnFragm
         }
     }
 
+    /**
+     * Interface methods
+     * */
+
+    // Interface from ReviewListFragment
     @Override
     public void onItemSelected(Review review) {
         Toast.makeText(this, review.getReviewTitle() + " was selected", Toast.LENGTH_SHORT).show();
+
+        // TODO: Create intent and launch ReviewDetailActivity
+    }
+
+    // Interface from ReviewDetailFragment
+    @Override
+    public void deleteReview(Review review) {
+
     }
 }
