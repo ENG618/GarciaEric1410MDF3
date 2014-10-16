@@ -65,8 +65,6 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
      * */
     @Override
     public void saveReview(Review review) {
-        // TODO: Bundle memory and send back to activity
-        Toast.makeText(this, "New review saved!!", Toast.LENGTH_SHORT).show();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Review.REVIEW, review);

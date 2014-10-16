@@ -52,4 +52,8 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
 
         return view;
     }
+
+    public void updateList(List<Review> newList) {
+        objects = newList;
+    }
 }

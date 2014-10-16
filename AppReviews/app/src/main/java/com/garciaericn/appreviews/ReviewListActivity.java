@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.garciaericn.appreviews.data.Review;
+import com.garciaericn.appreviews.data.ReviewArrayAdapter;
 import com.garciaericn.appreviews.fragments.ReviewListFragment;
 
 import java.util.ArrayList;
@@ -83,11 +84,19 @@ public class ReviewListActivity extends Activity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_REQUEST_CODE && resultCode == RESULT_OK) {
 
-            Bundle bundle = data.getExtras();
+            Bundle bundle = data.getBundleExtra(Review.BUNDLED_REVIEW);
             Review review = (Review) bundle.getSerializable(Review.REVIEW);
 
-            reviewArrayList.add(review);
-            loadList();
+            if (review != null) {
+                reviewArrayList.add(review);
+                ReviewListFragment fragment = (ReviewListFragment) getFragmentManager().findFragmentByTag(ReviewListFragment.TAG);
+                ReviewArrayAdapter adapter = (ReviewArrayAdapter) fragment.getListAdapter();
+//                adapter.updateList(reviewArrayList);
+//            ReviewArrayAdapter adapter = new ReviewArrayAdapter(this, R.layout.review_item, reviewArrayList);
+                adapter.notifyDataSetChanged();
+            }else {
+                Toast.makeText(this, "Save error, please try again!!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
