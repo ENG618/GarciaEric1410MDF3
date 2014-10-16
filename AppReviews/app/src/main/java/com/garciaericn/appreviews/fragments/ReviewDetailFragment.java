@@ -59,9 +59,11 @@ public class ReviewDetailFragment extends Fragment {
         if (b != null) {
             review = (Review) b.getSerializable(Review.BUNDLED_REVIEW);
             Log.i(TAG, "Current review: " + review.getReviewTitle());
-            setIconAsUpEnabled = b.getBoolean(SET_ICON_AS_UP_ENABLED);
-            if (setIconAsUpEnabled) {
-                mListener.setHomeAsUp();
+            if (b.containsKey(SET_ICON_AS_UP_ENABLED)) {
+                setIconAsUpEnabled = b.getBoolean(SET_ICON_AS_UP_ENABLED);
+                if (setIconAsUpEnabled) {
+                    mListener.setHomeAsUp();
+                }
             }
         }
     }
@@ -81,6 +83,7 @@ public class ReviewDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        setIconAsUpEnabled = false;
     }
 
     @Override
