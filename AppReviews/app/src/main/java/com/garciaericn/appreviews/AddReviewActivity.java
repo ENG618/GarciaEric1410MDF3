@@ -7,33 +7,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.garciaericn.appreviews.data.Review;
-import com.garciaericn.appreviews.fragments.ReviewDetailFragment;
+import com.garciaericn.appreviews.fragments.AddReviewFragment;
 
 /**
  * Full Sail University
  * Mobile Development BS
  * Created by ENG618-Mac on 10/15/14.
  */
-public class ReviewDetailActivity extends Activity implements ReviewDetailFragment.OnFragmentInteractionListener{
+public class AddReviewActivity extends Activity {
 
-
-    private static final String TAG = "ReviewDetailActivity.TAG";
+    private static final String TAG = "AddReviewActivity.TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_detail);
+        setContentView(R.layout.activity_add_review);
         Log.i(TAG, "onCreate entered");
 
         if (savedInstanceState == null) {
-            // Obtain bundle from intent
-            Bundle bundle = getIntent().getBundleExtra(Review.BUNDLED_REVIEW);
-            Review review = (Review) bundle.getSerializable(Review.REVIEW);
 
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.review_detail_container, ReviewDetailFragment.newInstance(review), ReviewDetailActivity.TAG)
+                    .replace(R.id.add_review_container, AddReviewFragment.newInstance(), AddReviewFragment.TAG)
                     .commit();
         }
     }
@@ -56,13 +51,5 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Interface method
-     * */
-    @Override
-    public void deleteReview(Review review) {
-
     }
 }

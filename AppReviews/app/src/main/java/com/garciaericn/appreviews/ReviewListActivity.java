@@ -9,17 +9,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.garciaericn.appreviews.data.Review;
-import com.garciaericn.appreviews.fragments.ReviewDetailFragment;
 import com.garciaericn.appreviews.fragments.ReviewListFragment;
 
 import java.util.ArrayList;
 
 
 public class ReviewListActivity extends Activity
-        implements ReviewListFragment.OnFragmentInteractionListener, ReviewDetailFragment.OnFragmentInteractionListener {
+        implements ReviewListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "ReviewListActivity.TAG";
-    private static final int REQUESTCODE = 1001;
+    private static final int ADD_REQUEST_CODE = 1001;
     private ArrayList<Review> reviewArrayList;
 
 
@@ -42,12 +41,17 @@ public class ReviewListActivity extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_add:
+                Intent intent = new Intent(this, AddReviewActivity.class);
+                startActivityForResult(intent, ADD_REQUEST_CODE);
+                break;
+            default:
+                Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -76,24 +80,15 @@ public class ReviewListActivity extends Activity
     /**
      * Interface methods
      * */
-
-    // Interface from ReviewListFragment
     @Override
     public void onItemSelected(Review review) {
         Toast.makeText(this, review.getReviewTitle() + " was selected", Toast.LENGTH_SHORT).show();
 
-        // TODO: Create intent and launch ReviewDetailActivity
         Bundle bundle = new Bundle();
         bundle.putSerializable(Review.REVIEW, review);
 
         Intent intent = new Intent(this, ReviewDetailActivity.class);
         intent.putExtra(Review.BUNDLED_REVIEW, bundle);
-        startActivityForResult(intent, REQUESTCODE);
-    }
-
-    // Interface from ReviewDetailFragment
-    @Override
-    public void deleteReview(Review review) {
-
+        startActivity(intent);
     }
 }

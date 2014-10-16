@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReviewDetailActivity"
-            android:parentActivityName=".ReviewListActivity"/>
+            android:label="@string/activity_review" />
+        <activity android:name=".AddReviewActivity"
+            android:label="New Review" />
     </application>
 
 </manifest>

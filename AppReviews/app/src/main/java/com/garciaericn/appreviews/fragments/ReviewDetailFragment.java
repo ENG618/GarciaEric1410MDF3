@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.garciaericn.appreviews.R;
 import com.garciaericn.appreviews.data.Review;
 
 /**
@@ -14,7 +20,6 @@ import com.garciaericn.appreviews.data.Review;
  */
 public class ReviewDetailFragment extends Fragment {
 
-    private static final String ARG_REVIEW = "com.garciaericn.appreviews.ReviewDetailFragment.REVIEW";
     public static final String TAG = "ReviewDetailFragment.TAG";
 
     private Review review;
@@ -33,7 +38,7 @@ public class ReviewDetailFragment extends Fragment {
 
         // Bundle arguments
         Bundle args = new Bundle();
-        args.putSerializable(ARG_REVIEW, review);
+        args.putSerializable(Review.BUNDLED_REVIEW, review);
 
         // Set args to fragment
         reviewFragment.setArguments(args);
@@ -49,7 +54,7 @@ public class ReviewDetailFragment extends Fragment {
         Bundle b = getArguments();
 
         if (b != null) {
-            review = (Review) b.getSerializable(ARG_REVIEW);
+            review = (Review) b.getSerializable(Review.BUNDLED_REVIEW);
             Log.i(TAG, "Current review: " + review.getReviewTitle());
         }
     }
@@ -69,6 +74,27 @@ public class ReviewDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView entered");
+        // Load layout
+        View view = inflater.inflate(R.layout.fragment_review_detail, container, false);
+
+        if (view != null && review != null) {
+            // Obtain and set all fields
+            TextView titleTV = (TextView) view.findViewById(R.id.detail_title);
+            titleTV.setText(review.getReviewTitle());
+
+            TextView startTV = (TextView) view.findViewById(R.id.detail_stars);
+            startTV.setText(String.valueOf(review.getStarsEarned()) + " stars");
+
+            EditText summaryTV = (EditText) view.findViewById(R.id.detail_summary);
+            summaryTV.setText(review.getReviewSummary());
+        }
+        // Return view
+        return view;
     }
 
     /**
