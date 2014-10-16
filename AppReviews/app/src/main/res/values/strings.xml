@@ -12,5 +12,7 @@
     <string name="hint_application_title">Reviewed application</string>
     <string name="hint_stars_earned">Stars earned  1–5</string>
     <string name="hint_application_summary">Review goes here…</string>
+    <string name="action_clear">Clear All</string>
+    <string name="action_save">Save</string>
 
 </resources>

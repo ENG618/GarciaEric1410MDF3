@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.garciaericn.appreviews.fragments.AddReviewFragment;
@@ -35,21 +36,31 @@ public class AddReviewActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail, menu);
+        getMenuInflater().inflate(R.menu.add, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings: {
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
                 break;
-            }
-            default: {
+            case R.id.action_clear:
+                // TODO: clear all fields
+                clearAll();
+                break;
+            case R.id.action_save:
+                // Handled in Fragment
+                break;
+            default:
                 Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
                 break;
-            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearAll() {
+        // Obtain and clear all views
     }
 }

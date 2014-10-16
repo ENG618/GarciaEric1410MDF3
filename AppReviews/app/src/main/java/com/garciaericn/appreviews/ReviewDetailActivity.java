@@ -48,6 +48,7 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings: {
+                Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
                 break;
             }
             default: {
