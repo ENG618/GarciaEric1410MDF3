@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.garciaericn.appreviews.data.Review;
 import com.garciaericn.appreviews.fragments.AddReviewFragment;
 
 /**
@@ -15,7 +16,7 @@ import com.garciaericn.appreviews.fragments.AddReviewFragment;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/15/14.
  */
-public class AddReviewActivity extends Activity {
+public class AddReviewActivity extends Activity implements AddReviewFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "AddReviewActivity.TAG";
 
@@ -47,8 +48,7 @@ public class AddReviewActivity extends Activity {
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_clear:
-                // TODO: clear all fields
-                clearAll();
+                // Handled in Fragment
                 break;
             case R.id.action_save:
                 // Handled in Fragment
@@ -60,7 +60,8 @@ public class AddReviewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void clearAll() {
-        // Obtain and clear all views
+    @Override
+    public void saveReview(Review review) {
+        // TODO: Bundle memory and send back to activity
     }
 }
