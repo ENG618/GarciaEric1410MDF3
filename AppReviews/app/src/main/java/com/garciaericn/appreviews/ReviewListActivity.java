@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.garciaericn.appreviews.data.DataManager;
 import com.garciaericn.appreviews.data.Review;
 import com.garciaericn.appreviews.data.ReviewArrayAdapter;
 import com.garciaericn.appreviews.fragments.ReviewListFragment;
@@ -30,7 +31,15 @@ public class ReviewListActivity extends Activity
         setContentView(R.layout.activity_review_list);
         Log.i(TAG, "onCreate entered");
 
-        loadDefaultData();
+        DataManager mgr = DataManager.getInstance(this);
+        if (mgr != null) {
+            if (mgr.checkFile(this)){
+                reviewArrayList = mgr.readFromDisk();
+            }else {
+                loadDefaultData();
+                mgr.writeToDisk(reviewArrayList);
+            }
+        }
         loadList();
     }
 
@@ -88,12 +97,24 @@ public class ReviewListActivity extends Activity
             Review review = (Review) bundle.getSerializable(Review.REVIEW);
 
             if (review != null) {
+                // Add new review to list
                 reviewArrayList.add(review);
+                // Obtain instance of DataManager
+                DataManager mgr = DataManager.getInstance(this);
+                if (mgr != null) {
+                    // Update file saved to disk
+                    mgr.writeToDisk(reviewArrayList);
+                }
+
+                // Find list fragment
                 ReviewListFragment fragment = (ReviewListFragment) getFragmentManager().findFragmentByTag(ReviewListFragment.TAG);
+                // Obtain list adapter
                 ReviewArrayAdapter adapter = (ReviewArrayAdapter) fragment.getListAdapter();
-//                adapter.updateList(reviewArrayList);
-//            ReviewArrayAdapter adapter = new ReviewArrayAdapter(this, R.layout.review_item, reviewArrayList);
+                // Notify data set changed
                 adapter.notifyDataSetChanged();
+
+                // Notify user saved successful
+                Toast.makeText(this, review.getReviewTitle() + " review saved successfully", Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(this, "Save error, please try again!!", Toast.LENGTH_SHORT).show();
             }
