@@ -30,10 +30,11 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
             // Obtain bundle from intent
             Bundle bundle = getIntent().getBundleExtra(Review.BUNDLED_REVIEW);
             Review review = (Review) bundle.getSerializable(Review.REVIEW);
+            boolean setIconAsUpEnabled = bundle.getBoolean(ReviewListActivity.SET_ICON_AS_UP_ENABLED);
 
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.review_detail_container, ReviewDetailFragment.newInstance(review), ReviewDetailActivity.TAG)
+                    .replace(R.id.review_detail_container, ReviewDetailFragment.newInstance(review, setIconAsUpEnabled), ReviewDetailActivity.TAG)
                     .commit();
         }
     }
@@ -47,14 +48,15 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings: {
+            case R.id.action_settings:
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
                 break;
-            }
-            default: {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
                 Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
                 break;
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -65,5 +67,10 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
     @Override
     public void deleteReview(Review review) {
 
+    }
+
+    @Override
+    public void setHomeAsUp() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

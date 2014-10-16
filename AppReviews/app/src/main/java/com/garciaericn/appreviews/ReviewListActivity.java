@@ -19,6 +19,7 @@ public class ReviewListActivity extends Activity
 
     private static final String TAG = "ReviewListActivity.TAG";
     private static final int ADD_REQUEST_CODE = 1001;
+    public static final String SET_ICON_AS_UP_ENABLED = "com.garciaericn.appreviews.ReviewListActivity.UPENABLED";
     private ArrayList<Review> reviewArrayList;
 
 
@@ -99,6 +100,7 @@ public class ReviewListActivity extends Activity
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Review.REVIEW, review);
+        bundle.putBoolean(SET_ICON_AS_UP_ENABLED, true);
 
         Intent intent = new Intent(this, ReviewDetailActivity.class);
         intent.putExtra(Review.BUNDLED_REVIEW, bundle);

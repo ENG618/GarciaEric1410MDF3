@@ -39,14 +39,16 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
 
         View view = inflater.inflate(R.layout.review_item, null);
 
-        TextView titleTV = (TextView) view.findViewById(R.id.review_title);
-        titleTV.setText(objects.get(position).getReviewTitle());
+        if (view != null) {
+            TextView titleTV = (TextView) view.findViewById(R.id.review_title);
+            titleTV.setText(objects.get(position).getReviewTitle());
 
-        TextView starsTV = (TextView) view.findViewById(R.id.star_rating);
-        starsTV.setText(String.valueOf(objects.get(position).getStarsEarned()) + " stars");
+            TextView starsTV = (TextView) view.findViewById(R.id.star_rating);
+            starsTV.setText(String.valueOf(objects.get(position).getStarsEarned()) + " stars");
 
-        TextView summaryTV = (TextView) view.findViewById(R.id.review_summary);
-        summaryTV.setText(objects.get(position).getReviewSummary());
+            TextView summaryTV = (TextView) view.findViewById(R.id.review_summary);
+            summaryTV.setText(objects.get(position).getReviewSummary());
+        }
 
         return view;
     }

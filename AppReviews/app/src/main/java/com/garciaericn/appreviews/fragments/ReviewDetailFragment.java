@@ -21,9 +21,11 @@ import com.garciaericn.appreviews.data.Review;
 public class ReviewDetailFragment extends Fragment {
 
     public static final String TAG = "ReviewDetailFragment.TAG";
+    private static final String SET_ICON_AS_UP_ENABLED = "com.garciaericn.appreviews.ReviewDetailFragment.SET_ICON_AS_UP_ENABLED";
 
     private Review review;
     private OnFragmentInteractionListener mListener;
+    private boolean setIconAsUpEnabled;
 
     // Required no args constructor
     public ReviewDetailFragment() {
@@ -31,7 +33,7 @@ public class ReviewDetailFragment extends Fragment {
     }
 
     // Static instance constructor
-    public static ReviewDetailFragment newInstance(Review review) {
+    public static ReviewDetailFragment newInstance(Review review, boolean setIconAsUpEnabled) {
         Log.i(TAG, "newInstance entered");
         // Create instance of fragment
         ReviewDetailFragment reviewFragment = new ReviewDetailFragment();
@@ -39,6 +41,7 @@ public class ReviewDetailFragment extends Fragment {
         // Bundle arguments
         Bundle args = new Bundle();
         args.putSerializable(Review.BUNDLED_REVIEW, review);
+        args.putBoolean(SET_ICON_AS_UP_ENABLED, setIconAsUpEnabled);
 
         // Set args to fragment
         reviewFragment.setArguments(args);
@@ -56,6 +59,10 @@ public class ReviewDetailFragment extends Fragment {
         if (b != null) {
             review = (Review) b.getSerializable(Review.BUNDLED_REVIEW);
             Log.i(TAG, "Current review: " + review.getReviewTitle());
+            setIconAsUpEnabled = b.getBoolean(SET_ICON_AS_UP_ENABLED);
+            if (setIconAsUpEnabled) {
+                mListener.setHomeAsUp();
+            }
         }
     }
 
@@ -103,5 +110,6 @@ public class ReviewDetailFragment extends Fragment {
      * */
     public interface OnFragmentInteractionListener {
         public void deleteReview(Review review);
+        public void setHomeAsUp();
     }
 }
