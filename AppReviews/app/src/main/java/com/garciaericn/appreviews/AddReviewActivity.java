@@ -1,11 +1,11 @@
 package com.garciaericn.appreviews;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.garciaericn.appreviews.data.Review;
@@ -63,5 +63,14 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
     @Override
     public void saveReview(Review review) {
         // TODO: Bundle memory and send back to activity
+        Toast.makeText(this, "New review saved!!", Toast.LENGTH_SHORT).show();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Review.REVIEW, review);
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(Review.BUNDLED_REVIEW, bundle);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }
