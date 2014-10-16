@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.garciaericn.appreviews.R;
 import com.garciaericn.appreviews.data.Review;
@@ -25,21 +24,40 @@ import com.garciaericn.appreviews.data.Review;
 public class AddReviewFragment extends Fragment {
 
     public static final String TAG = "AddReviewFragment.TAG";
+    private static final String SET_ICON_AS_UP_ENABLED = "com.garciaericn.appreviews.AddReviewFragment.SET_ICON_AS_UP_ENABLED";
     private OnFragmentInteractionListener mListener;
     private Review review;
+    private boolean setIconAsUpEnabled;
 
     public AddReviewFragment() {
 
     }
 
-    public static AddReviewFragment newInstance(){
-        return new AddReviewFragment();
+    public static AddReviewFragment newInstance(boolean setIconAsUpEnabled){
+        AddReviewFragment fragment = new AddReviewFragment();
+
+        // Bundle arguments
+        Bundle args = new Bundle();
+        args.putBoolean(SET_ICON_AS_UP_ENABLED, setIconAsUpEnabled);
+
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setIconAsUpEnabled = false;
+
+        Bundle b = getArguments();
+        if (b != null && b.containsKey(SET_ICON_AS_UP_ENABLED)) {
+            setIconAsUpEnabled = b.getBoolean(SET_ICON_AS_UP_ENABLED);
+            if (setIconAsUpEnabled) {
+                mListener.setHomeAsUp();
+            }
+        }
     }
 
     @Override
@@ -63,9 +81,7 @@ public class AddReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView entered");
 
-        View view = inflater.inflate(R.layout.fragment_add_review, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_add_review, container, false);
     }
 
     @Override
@@ -81,7 +97,7 @@ public class AddReviewFragment extends Fragment {
                 }
                 break;
             default:
-                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,7 +116,7 @@ public class AddReviewFragment extends Fragment {
             }
 
             TextView starsTV = (TextView) getView().findViewById(R.id.new_stars);
-            Integer starsInt = 0;
+            Integer starsInt;
             try {
                 starsInt = Integer.parseInt(starsTV.getText().toString());
             } catch (NumberFormatException e) {
@@ -151,5 +167,6 @@ public class AddReviewFragment extends Fragment {
      * */
     public interface OnFragmentInteractionListener {
         public void saveReview(Review review);
+        public void setHomeAsUp();
     }
 }

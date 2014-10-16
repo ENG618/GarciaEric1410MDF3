@@ -26,11 +26,19 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
         setContentView(R.layout.activity_add_review);
         Log.i(TAG, "onCreate entered");
 
+        boolean setIconAsUpEnabled = false;
+
         if (savedInstanceState == null) {
+            // Obtain bundle from intent
+            Bundle bundle = getIntent().getBundleExtra(ReviewListActivity.BUNDLED_EXTRA);
+            if (bundle != null && bundle.containsKey(ReviewListActivity.SET_ICON_AS_UP_ENABLED)) {
+                setIconAsUpEnabled = bundle.getBoolean(ReviewListActivity.SET_ICON_AS_UP_ENABLED);
+
+            }
 
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.add_review_container, AddReviewFragment.newInstance(), AddReviewFragment.TAG)
+                    .replace(R.id.add_review_container, AddReviewFragment.newInstance(setIconAsUpEnabled), AddReviewFragment.TAG)
                     .commit();
         }
     }
@@ -53,6 +61,11 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
             case R.id.action_save:
                 // Handled in Fragment
                 break;
+            case android.R.id.home:
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+                break;
             default:
                 Toast.makeText(this, "Something went wrong!!", Toast.LENGTH_SHORT).show();
                 break;
@@ -73,5 +86,10 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
         returnIntent.putExtra(Review.BUNDLED_REVIEW, bundle);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    @Override
+    public void setHomeAsUp() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

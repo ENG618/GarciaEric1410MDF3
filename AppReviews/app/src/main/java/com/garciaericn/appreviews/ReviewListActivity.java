@@ -22,6 +22,7 @@ public class ReviewListActivity extends Activity
     private static final String TAG = "ReviewListActivity.TAG";
     private static final int ADD_REQUEST_CODE = 1001;
     public static final String SET_ICON_AS_UP_ENABLED = "com.garciaericn.appreviews.ReviewListActivity.UPENABLED";
+    public static final String BUNDLED_EXTRA = "com.garciaericn.appreviews.ReviewListActivity.BUNDLEDEXTRA";
     private ArrayList<Review> reviewArrayList;
 
 
@@ -57,7 +58,10 @@ public class ReviewListActivity extends Activity
                 Toast.makeText(this, "Settings pressed", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_add:
+                Bundle b = new Bundle();
+                b.putBoolean(SET_ICON_AS_UP_ENABLED, true);
                 Intent intent = new Intent(this, AddReviewActivity.class);
+                intent.putExtra(BUNDLED_EXTRA, b);
                 startActivityForResult(intent, ADD_REQUEST_CODE);
                 break;
             default:
@@ -118,6 +122,8 @@ public class ReviewListActivity extends Activity
             }else {
                 Toast.makeText(this, "Save error, please try again!!", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == ADD_REQUEST_CODE && resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "New review was canceled", Toast.LENGTH_SHORT).show();
         }
     }
 
