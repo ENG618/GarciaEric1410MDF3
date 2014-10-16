@@ -40,7 +40,7 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.base, menu);
+        getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
 
