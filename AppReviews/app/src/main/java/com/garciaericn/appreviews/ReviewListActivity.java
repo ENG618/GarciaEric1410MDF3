@@ -77,6 +77,19 @@ public class ReviewListActivity extends Activity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Bundle bundle = data.getExtras();
+            Review review = (Review) bundle.getSerializable(Review.REVIEW);
+
+            reviewArrayList.add(review);
+            loadList();
+        }
+    }
+
     /**
      * Interface methods
      * */

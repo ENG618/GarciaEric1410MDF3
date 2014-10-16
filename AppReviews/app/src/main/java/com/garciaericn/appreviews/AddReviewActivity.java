@@ -60,6 +60,9 @@ public class AddReviewActivity extends Activity implements AddReviewFragment.OnF
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Interface method
+     * */
     @Override
     public void saveReview(Review review) {
         // TODO: Bundle memory and send back to activity
