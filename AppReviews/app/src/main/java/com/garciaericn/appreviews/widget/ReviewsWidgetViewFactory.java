@@ -61,9 +61,9 @@ public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsF
     @Override
     public RemoteViews getViewAt(int position) {
         Log.i(TAG, "getViewAt entered");
-        // TODO: Set each view with Review at position
+        // Obtain current review
         Review review = mReviews.get(position);
-
+        // Instantiate remote view
         RemoteViews itemView = new RemoteViews(mcontext.getPackageName(), R.layout.review_item);
 
         itemView.setTextViewText(R.id.review_title, review.getReviewTitle());
@@ -73,7 +73,8 @@ public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsF
         Intent intent = new Intent();
 //        intent.putExtra([constant from widget provider].EXTRA_ITEM, review);
         itemView.setOnClickFillInIntent(R.id.review_item, intent);
-        return null;
+
+        return itemView;
     }
 
     @Override
