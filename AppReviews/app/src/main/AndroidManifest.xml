@@ -20,6 +20,10 @@
             android:label="@string/activity_review" />
         <activity android:name=".AddReviewActivity"
             android:label="New Review" />
+
+        <service android:name=".widget.ReviewsWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>
