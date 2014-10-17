@@ -43,7 +43,11 @@ public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsF
     public void onDataSetChanged() {
         Log.i(TAG, "onDataSetChanged entered");
         // Heavy lifting code can go here without blocking the UI.
-        // TODO: Update data in collection
+        DataManager mgr = DataManager.getInstance(mcontext);
+        if (mgr != null) {
+            // Cache reviews from disk
+            mReviews = mgr.readFromDisk();
+        }
     }
 
     @Override

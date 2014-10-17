@@ -1,6 +1,8 @@
 package com.garciaericn.appreviews;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import com.garciaericn.appreviews.data.DataManager;
 import com.garciaericn.appreviews.data.Review;
 import com.garciaericn.appreviews.data.ReviewArrayAdapter;
 import com.garciaericn.appreviews.fragments.ReviewListFragment;
+import com.garciaericn.appreviews.widget.ReviewsWidgetProvider;
 
 import java.util.ArrayList;
 
@@ -116,6 +119,11 @@ public class ReviewListActivity extends Activity
                 ReviewArrayAdapter adapter = (ReviewArrayAdapter) fragment.getListAdapter();
                 // Notify data set changed
                 adapter.notifyDataSetChanged();
+
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
+                int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), ReviewsWidgetProvider.class));
+                appWidgetManager.notifyAppWidgetViewDataChanged(ids, R.id.reviews_list);
+
 
                 // Notify user saved successful
                 Toast.makeText(this, review.getReviewTitle() + " review saved successfully", Toast.LENGTH_LONG).show();
