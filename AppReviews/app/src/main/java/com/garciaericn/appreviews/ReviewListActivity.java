@@ -134,12 +134,9 @@ public class ReviewListActivity extends Activity
     public void onItemSelected(Review review) {
         Toast.makeText(this, review.getReviewTitle() + " was selected", Toast.LENGTH_SHORT).show();
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Review.REVIEW, review);
-        bundle.putBoolean(SET_ICON_AS_UP_ENABLED, true);
-
         Intent intent = new Intent(this, ReviewDetailActivity.class);
-        intent.putExtra(Review.BUNDLED_REVIEW, bundle);
+        intent.putExtra(Review.REVIEW, review);
+        intent.putExtra(ReviewDetailActivity.SET_ICON_AS_UP_ENABLED, true);
         startActivity(intent);
     }
 }

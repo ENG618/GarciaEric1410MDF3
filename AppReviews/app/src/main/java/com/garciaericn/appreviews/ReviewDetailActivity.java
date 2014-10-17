@@ -1,6 +1,7 @@
 package com.garciaericn.appreviews;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +20,7 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
 
 
     private static final String TAG = "ReviewDetailActivity.TAG";
-    public static final String EXTRA_ITEM = "com.garciaericn.appreviews.ReviewDetailActivity.EXTRA_ITEM";
+    public static final String SET_ICON_AS_UP_ENABLED = "com.garciaericn.appreviews.ReviewDetailActivity.SET_ICON_AS_UP_ENABLED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +29,11 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
         Log.i(TAG, "onCreate entered");
 
         if (savedInstanceState == null) {
-            // Obtain bundle from intent
-            Bundle bundle = getIntent().getBundleExtra(Review.BUNDLED_REVIEW);
-            Review review = (Review) bundle.getSerializable(Review.REVIEW);
-            boolean setIconAsUpEnabled = bundle.getBoolean(ReviewListActivity.SET_ICON_AS_UP_ENABLED);
+
+            Intent intent = getIntent();
+            Review review = (Review) intent.getSerializableExtra(Review.REVIEW);
+            boolean setIconAsUpEnabled;
+            setIconAsUpEnabled = intent.getBooleanExtra(SET_ICON_AS_UP_ENABLED, false);
 
             getFragmentManager()
                     .beginTransaction()
