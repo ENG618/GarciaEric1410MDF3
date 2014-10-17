@@ -14,5 +14,6 @@
     <string name="hint_application_summary">Review goes here…</string>
     <string name="action_clear">Clear All</string>
     <string name="action_save">Save</string>
+    <string name="empty">No data</string>
 
 </resources>
