@@ -3,8 +3,10 @@ package com.garciaericn.appreviews.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.Toast;
 
 import com.garciaericn.appreviews.R;
 import com.garciaericn.appreviews.data.DataManager;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
  * Mobile Development BS
  * Created by ENG618-Mac on 10/16/14.
  */
-public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsFactory {
+public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsFactory, View.OnClickListener {
 
     private static final String TAG = "com.garciaericn.appsreviews.widget.ReviewsWidgetViewFactory.TAG";
     private static final int ID_CONSTANT = 0x0101010;
@@ -103,5 +105,13 @@ public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsF
     public boolean hasStableIds() {
         Log.i(TAG, "hasStableIds entered");
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.widget_add:
+                Toast.makeText(mcontext, "Test", Toast.LENGTH_SHORT).show();
+        }
     }
 }

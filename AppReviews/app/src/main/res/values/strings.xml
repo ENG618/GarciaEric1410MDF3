@@ -15,5 +15,6 @@
     <string name="action_clear">Clear All</string>
     <string name="action_save">Save</string>
     <string name="empty">No data</string>
+    <string name="add_new_review">Add New Review</string>
 
 </resources>

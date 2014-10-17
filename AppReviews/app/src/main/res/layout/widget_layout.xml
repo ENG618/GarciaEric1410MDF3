@@ -6,9 +6,18 @@
     android:layout_height="fill_parent"
     android:background="#738070">
 
+    <Button android:id="@+id/widget_add"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_review"/>
+
     <ListView android:id="@+id/reviews_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+
+
+
 
     <TextView android:id="@+id/empty"
         android:layout_width="wrap_content"
@@ -16,5 +25,7 @@
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="#E7FFDF"
         android:text="@string/empty"/>
+
+
 
 </LinearLayout>
