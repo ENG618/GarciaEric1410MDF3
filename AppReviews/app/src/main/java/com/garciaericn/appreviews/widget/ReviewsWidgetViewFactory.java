@@ -71,7 +71,7 @@ public class ReviewsWidgetViewFactory implements RemoteViewsService.RemoteViewsF
         itemView.setTextViewText(R.id.review_summary, review.getReviewSummary());
 
         Intent intent = new Intent();
-//        intent.putExtra([constant from widget provider].EXTRA_ITEM, review);
+        intent.putExtra(ReviewsWidgetProvider.EXTRA_ITEM, review);
         itemView.setOnClickFillInIntent(R.id.review_item, intent);
 
         return itemView;

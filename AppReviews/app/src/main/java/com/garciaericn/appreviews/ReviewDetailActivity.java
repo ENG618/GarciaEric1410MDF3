@@ -19,6 +19,7 @@ public class ReviewDetailActivity extends Activity implements ReviewDetailFragme
 
 
     private static final String TAG = "ReviewDetailActivity.TAG";
+    public static final String EXTRA_ITEM = "com.garciaericn.appreviews.ReviewDetailActivity.EXTRA_ITEM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
