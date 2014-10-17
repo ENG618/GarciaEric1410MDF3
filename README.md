@@ -20,8 +20,8 @@ Week 2: Service Fundamentals Part 2
 	* Displayed notification in foreground when while music is playing
 
 Week 3: Building a Widget
-* Due 10/16
-* Video review to be posted.
+* [Project3: App Reviews](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/AppReviews)
+* [Video review](http://youtu.be/L40CC0zvs_8)
 
 Week 4: Mapping Photos
 * Due 10/25
