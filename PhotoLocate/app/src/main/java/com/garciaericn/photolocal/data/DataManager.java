@@ -20,11 +20,11 @@ import java.util.ArrayList;
  * Created by ENG618-Mac on 10/16/14.
  */
 public class DataManager {
-    private static final String TAG = "com.garciaericn.";
+    private static final String TAG = "com.garciaericn.photolocal.data.DataManager.TAG";
     private static final String FILENAME = "Reviews";
     private static DataManager mgr = new DataManager();
     private static Context mContext;
-    private ArrayList<Review> reviews;
+    private ArrayList<Pin> pins;
 
     public static DataManager getInstance(Context context) {
         mContext = context;
@@ -45,7 +45,7 @@ public class DataManager {
         return file.exists();
     }
 
-    public void writeToDisk(ArrayList<Review> reviews) {
+    public void writeToDisk(ArrayList<Pin> reviews) {
         Log.i(TAG, "writeToDisk entered");
 
         File external = mContext.getExternalFilesDir(null);
@@ -63,7 +63,7 @@ public class DataManager {
         }
     }
 
-    public ArrayList<Review> readFromDisk() {
+    public ArrayList<Pin> readFromDisk() {
         Log.i(TAG, "readFromFile entered");
 
         if (checkFile(mContext)) {
@@ -74,7 +74,7 @@ public class DataManager {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-                reviews = (ArrayList<Review>) objectInputStream.readObject();
+                pins = (ArrayList<Pin >) objectInputStream.readObject();
                 objectInputStream.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -88,6 +88,6 @@ public class DataManager {
                 e.printStackTrace();
             }
         }
-        return reviews;
+        return pins;
     }
 }

@@ -2,6 +2,7 @@ package com.garciaericn.photolocal.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -39,22 +40,24 @@ public class PhotoMapFragment extends MapFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Get instance of map
-        googleMap = getMap();
+        if (savedInstanceState == null) {
+            // Get instance of map
+            googleMap = getMap();
 
-        // Add a map marker
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(28.590647, -81.304510)).title("MDVBS Faculty Offices"));
+            // Add a map marker
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(28.590647, -81.304510)).title("MDVBS Faculty Offices"));
 
-        // Set marker adapter
-        googleMap.setInfoWindowAdapter(new MarkerAdapter(getActivity()));
-        // Set listeners
-        googleMap.setOnInfoWindowClickListener(this);
-        googleMap.setOnMapClickListener(this);
-        googleMap.setOnMapLongClickListener(this);
+            // Set marker adapter
+            googleMap.setInfoWindowAdapter(new MarkerAdapter(getActivity()));
+            // Set listeners
+            googleMap.setOnInfoWindowClickListener(this);
+            googleMap.setOnMapClickListener(this);
+            googleMap.setOnMapLongClickListener(this);
 
 
-        // Set target, zoom, and animation
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 17));
+            // Set target, zoom, and animation
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 17));
+        }
     }
 
     @Override
@@ -70,7 +73,10 @@ public class PhotoMapFragment extends MapFragment
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
-        // TODO: Add new marker at this point.
+        // TODO: Launch AddPinFragment, to add new marker at this point.
+        Intent intent = new Intent();
+
+
         new AlertDialog.Builder(getActivity())
                 .setTitle("Map Clicked")
                 .setMessage("Add new marker here?")
