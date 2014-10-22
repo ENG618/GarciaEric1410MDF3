@@ -1,4 +1,4 @@
-package com.garciaericn.photolocal;
+package com.garciaericn.photolocal.data;
 
 import android.content.Context;
 import android.view.View;

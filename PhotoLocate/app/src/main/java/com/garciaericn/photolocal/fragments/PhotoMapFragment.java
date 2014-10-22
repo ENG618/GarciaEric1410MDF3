@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.garciaericn.photolocal.MarkerAdapter;
+import com.garciaericn.photolocal.data.MarkerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -65,6 +65,12 @@ public class PhotoMapFragment extends MapFragment
 
     @Override
     public void onMapClick(final LatLng latLng) {
+        Toast.makeText(getActivity(), "Press at: " + latLng, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMapLongClick(final LatLng latLng) {
+        // TODO: Add new marker at this point.
         new AlertDialog.Builder(getActivity())
                 .setTitle("Map Clicked")
                 .setMessage("Add new marker here?")
@@ -77,11 +83,5 @@ public class PhotoMapFragment extends MapFragment
                     }
                 })
                 .show();
-    }
-
-    @Override
-    public void onMapLongClick(LatLng latLng) {
-        Toast.makeText(getActivity(), "LongPress at: " + latLng, Toast.LENGTH_SHORT).show();
-        // TODO: Add new marker at this point.
     }
 }
