@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.garciaericn.photolocal.fragments.PhotoMapFragment;
+
 
 public class MainActivity extends Activity {
 
@@ -12,6 +14,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.map_container, PhotoMapFragment.getInstance(), PhotoMapFragment.TAG)
+                .commit();
     }
 
 
