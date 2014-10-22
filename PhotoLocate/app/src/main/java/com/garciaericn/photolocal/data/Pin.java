@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Pin {
 
+    public static final String LAT_LNG = "com.garciaericn.photolocal.data.LAT_LNG";
     private LatLng latLng;
     private String title;
     private String description;

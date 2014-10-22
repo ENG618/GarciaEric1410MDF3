@@ -1,12 +1,12 @@
 package com.garciaericn.photolocal.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.garciaericn.photolocal.NewPinActivity;
 import com.garciaericn.photolocal.data.MarkerAdapter;
+import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -26,6 +26,7 @@ public class PhotoMapFragment extends MapFragment
         GoogleMap.OnMapLongClickListener{
 
     public static final String TAG = "PhotoMapFragment.TAG";
+    private static final int NEW_PIN = 1234;
     private GoogleMap googleMap;
 
     public PhotoMapFragment() {
@@ -74,20 +75,22 @@ public class PhotoMapFragment extends MapFragment
     @Override
     public void onMapLongClick(final LatLng latLng) {
         // TODO: Launch AddPinFragment, to add new marker at this point.
-        Intent intent = new Intent();
+        Intent intent = new Intent(getActivity(), NewPinActivity.class);
+        intent.putExtra(Pin.LAT_LNG, latLng);
 
+        startActivityForResult(intent, NEW_PIN);
 
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Map Clicked")
-                .setMessage("Add new marker here?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        googleMap.addMarker(new MarkerOptions().position(latLng).title("New Marker"));
-                    }
-                })
-                .show();
+//        new AlertDialog.Builder(getActivity())
+//                .setTitle("Map Clicked")
+//                .setMessage("Add new marker here?")
+//                .setNegativeButton("No", null)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        googleMap.addMarker(new MarkerOptions().position(latLng).title("New Marker"));
+//                    }
+//                })
+//                .show();
     }
 }
