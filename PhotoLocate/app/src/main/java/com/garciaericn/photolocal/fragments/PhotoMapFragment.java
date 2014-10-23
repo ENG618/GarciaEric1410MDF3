@@ -27,8 +27,9 @@ public class PhotoMapFragment extends MapFragment
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMapLongClickListener{
 
-    public static final String TAG = "PhotoMapFragment.TAG";
+    public static final String TAG = "com.garciaericn.photolocal.fragments.PhotoMapFragment.TAG";
     private static final int NEW_PIN = 1234;
+    private static final String ARG_PINS_ARRAY = "com.garciaericn.photolocal.fragments.ARG_PINS_ARRAY";
     private GoogleMap googleMap;
     private ArrayList<Pin> pins;
 
@@ -38,20 +39,34 @@ public class PhotoMapFragment extends MapFragment
         }
     }
 
-    public static PhotoMapFragment getInstance() {
-        return new PhotoMapFragment();
+    public static PhotoMapFragment getInstance(ArrayList<Pin> pins) {
+        PhotoMapFragment fragment = new PhotoMapFragment();
+        Bundle b = new Bundle();
+        b.putSerializable(ARG_PINS_ARRAY, pins);
+        fragment.setArguments(b);
+
+        return fragment;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (getArguments() != null && getArguments().containsKey(ARG_PINS_ARRAY)) {
+            pins = (ArrayList<Pin>) getArguments().getSerializable(ARG_PINS_ARRAY);
+        }
+
         if (savedInstanceState == null) {
             // Get instance of map
             googleMap = getMap();
 
             // Add a map marker
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(28.590647, -81.304510)).title("MDVBS Faculty Offices"));
+            for (Pin pin: pins) {
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()));
+            }
+
+
+//            googleMap.addMarker(new MarkerOptions().position(new LatLng(28.590647, -81.304510)).title("MDVBS Faculty Offices"));
 
             // Set marker adapter
             googleMap.setInfoWindowAdapter(new MarkerAdapter(getActivity()));
@@ -62,7 +77,7 @@ public class PhotoMapFragment extends MapFragment
 
 
             // Set target, zoom, and animation
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 17));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 10));
         }
     }
 

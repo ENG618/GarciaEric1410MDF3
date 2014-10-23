@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.map_container, PhotoMapFragment.getInstance(), PhotoMapFragment.TAG)
+                .replace(R.id.map_container, PhotoMapFragment.getInstance(pins), PhotoMapFragment.TAG)
                 .commit();
     }
 
