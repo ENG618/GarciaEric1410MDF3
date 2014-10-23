@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class DataManager {
     private static final String TAG = "com.garciaericn.photolocal.data.DataManager.TAG";
-    private static final String FILENAME = "Reviews";
+    private static final String FILENAME = "Pins";
     private static DataManager mgr = new DataManager();
     private static Context mContext;
     private ArrayList<Pin> pins;

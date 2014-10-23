@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 /**
  * Full Sail University
  * Mobile Development BS
@@ -28,9 +30,12 @@ public class PhotoMapFragment extends MapFragment
     public static final String TAG = "PhotoMapFragment.TAG";
     private static final int NEW_PIN = 1234;
     private GoogleMap googleMap;
+    private ArrayList<Pin> pins;
 
     public PhotoMapFragment() {
-
+        if (pins == null) {
+            pins = new ArrayList<Pin>();
+        }
     }
 
     public static PhotoMapFragment getInstance() {

@@ -24,15 +24,13 @@ public class Pin implements Serializable{
 
     }
 
-    public Pin newPin(LatLng latLng, String title, String description) {
+    public Pin(LatLng latLng, String title, String description) {
         Pin pin = new Pin();
 
         setLatitude(latLng.latitude);
         setLongitude(latLng.longitude);
         setTitle(title);
         setDescription(description);
-
-        return pin;
     }
 
     public Pin newPinWithPhoto(LatLng latLng, String title, String description) {

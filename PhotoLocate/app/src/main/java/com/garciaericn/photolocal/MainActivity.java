@@ -5,20 +5,47 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.garciaericn.photolocal.data.DataManager;
+import com.garciaericn.photolocal.data.Pin;
 import com.garciaericn.photolocal.fragments.PhotoMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
+
+    private ArrayList<Pin> pins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DataManager mgr = DataManager.getInstance(this);
+        if (mgr != null) {
+            if (mgr.checkFile(this)) {
+                pins = mgr.readFromDisk();
+            } else {
+                loadDefaultData();
+                mgr.writeToDisk(pins);
+            }
+        }
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.map_container, PhotoMapFragment.getInstance(), PhotoMapFragment.TAG)
                 .commit();
+    }
+
+    private void loadDefaultData() {
+        if (pins == null) {
+            pins = new ArrayList<Pin>();
+        }
+
+        pins.add(new Pin(new LatLng(28.590647, -81.304510), "MDVBS Faculty Offices", "At Full Sail"));
+        pins.add(new Pin(new LatLng(28.675508, -81.311846), "oec Japanese Express", "Great little Japanese restaurant.  The sushi is amazing"));
+        pins.add(new Pin(new LatLng(28.657245, -81.339514), "Lo Mejor Del Mundo Cuban", "This Cuban restaurant taste like homemade goodness.  The sandwiches are extra delicious"));
     }
 
 
