@@ -1,5 +1,6 @@
 package com.garciaericn.photolocal.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -28,10 +29,11 @@ public class PhotoMapFragment extends MapFragment
         GoogleMap.OnMapLongClickListener{
 
     public static final String TAG = "com.garciaericn.photolocal.fragments.PhotoMapFragment.TAG";
-    private static final int NEW_PIN = 1234;
+    public static final int NEW_PIN = 1234;
     private static final String ARG_PINS_ARRAY = "com.garciaericn.photolocal.fragments.ARG_PINS_ARRAY";
     private GoogleMap googleMap;
     private ArrayList<Pin> pins;
+    private OnFragmentInteractionListener mListener;
 
     public PhotoMapFragment() {
         if (pins == null) {
@@ -82,6 +84,17 @@ public class PhotoMapFragment extends MapFragment
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Ensure activity implements OnFragmentInteractionListener
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public void onInfoWindowClick(Marker marker) {
         Toast.makeText(getActivity(), marker.getTitle() + " pressed", Toast.LENGTH_SHORT).show();
         // TODO: launch detail frag
@@ -112,5 +125,19 @@ public class PhotoMapFragment extends MapFragment
 //                    }
 //                })
 //                .show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mListener.activityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * PhotoMapFragment
+     * Interface
+     * */
+    public interface OnFragmentInteractionListener {
+        public void activityResult(int requestCode, int resultCode, Intent data);
     }
 }

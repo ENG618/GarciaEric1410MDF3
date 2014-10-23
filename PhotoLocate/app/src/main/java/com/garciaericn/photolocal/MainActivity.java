@@ -1,9 +1,11 @@
 package com.garciaericn.photolocal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.Pin;
@@ -13,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements PhotoMapFragment.OnFragmentInteractionListener{
 
     private ArrayList<Pin> pins;
 
@@ -44,7 +46,7 @@ public class MainActivity extends Activity {
         }
 
         pins.add(new Pin(new LatLng(28.590647, -81.304510), "MDVBS Faculty Offices", "At Full Sail"));
-        pins.add(new Pin(new LatLng(28.675508, -81.311846), "oec Japanese Express", "Great little Japanese restaurant.  The sushi is amazing"));
+        pins.add(new Pin(new LatLng(28.675508, -81.311846), "OEC Japanese Express", "Great little Japanese restaurant.  The sushi is amazing"));
         pins.add(new Pin(new LatLng(28.657245, -81.339514), "Lo Mejor Del Mundo Cuban", "This Cuban restaurant taste like homemade goodness.  The sandwiches are extra delicious"));
     }
 
@@ -66,5 +68,15 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Interface Methods
+     * */
+    @Override
+    public void activityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PhotoMapFragment.NEW_PIN && resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "No pin was added to map", Toast.LENGTH_SHORT).show();
+        }
     }
 }

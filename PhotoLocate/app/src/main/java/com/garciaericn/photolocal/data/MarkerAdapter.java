@@ -32,7 +32,7 @@ public class MarkerAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(Marker marker) {
-        mText.setText(marker.getTitle() + " adapter working!!");
+        mText.setText(marker.getTitle());
         return mText;
     }
 
