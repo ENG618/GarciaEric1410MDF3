@@ -3,6 +3,8 @@ package com.garciaericn.photolocal;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.garciaericn.photolocal.data.Pin;
 import com.garciaericn.photolocal.fragments.AddPinFragment;
@@ -34,6 +36,24 @@ public class AddPinActivity extends Activity implements AddPinFragment.OnFragmen
                         .commit();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent cancelIntent = new Intent();
+                setResult(RESULT_CANCELED, cancelIntent);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -2,15 +2,21 @@ package com.garciaericn.photolocal.data;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
+
 /**
  * Full Sail University
  * Mobile Development BS
  * Created by ENG618-Mac on 10/22/14.
  */
-public class Pin {
+public class Pin implements Serializable{
+    public static final long serialVersionUID = 5743257589655875125L;
 
     public static final String LAT_LNG = "com.garciaericn.photolocal.data.LAT_LNG";
-    private LatLng latLng;
+
+    // Object fields
+    private double latitude;
+    private double longitude;
     private String title;
     private String description;
 
@@ -21,7 +27,8 @@ public class Pin {
     public Pin newPin(LatLng latLng, String title, String description) {
         Pin pin = new Pin();
 
-        setLatLng(latLng);
+        setLatitude(latLng.latitude);
+        setLongitude(latLng.longitude);
         setTitle(title);
         setDescription(description);
 
@@ -31,7 +38,8 @@ public class Pin {
     public Pin newPinWithPhoto(LatLng latLng, String title, String description) {
         Pin pin = new Pin();
 
-        setLatLng(latLng);
+        setLatitude(latLng.latitude);
+        setLongitude(latLng.longitude);
         setTitle(title);
         setDescription(description);
 
@@ -42,12 +50,20 @@ public class Pin {
      * Getter and Setter Methods
      * */
 
-     public LatLng getLatLng() {
-        return latLng;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getTitle() {
