@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.garciaericn.photolocal.NewPinActivity;
+import com.garciaericn.photolocal.AddPinActivity;
 import com.garciaericn.photolocal.data.MarkerAdapter;
 import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -75,7 +75,7 @@ public class PhotoMapFragment extends MapFragment
     @Override
     public void onMapLongClick(final LatLng latLng) {
         // TODO: Launch AddPinFragment, to add new marker at this point.
-        Intent intent = new Intent(getActivity(), NewPinActivity.class);
+        Intent intent = new Intent(getActivity(), AddPinActivity.class);
         intent.putExtra(Pin.LAT_LNG, latLng);
 
         startActivityForResult(intent, NEW_PIN);

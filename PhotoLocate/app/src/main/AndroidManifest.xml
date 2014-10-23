@@ -24,11 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewPinActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".AddPinActivity"
             android:label="@string/activity_label_new_pin"/>
         <activity android:name=".PinActivity"
-            android:parentActivityName=".MainActivity"
             android:label="@string/activity_label_pin"/>
 
         <meta-data android:name="com.google.android.gms.version"
