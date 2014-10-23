@@ -62,24 +62,25 @@ public class PhotoMapFragment extends MapFragment
             // Get instance of map
             googleMap = getMap();
 
-            // Add a map marker
-            for (Pin pin: pins) {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()));
+            if (googleMap != null) {
+                if (pins != null) {
+                    // Add a map marker
+                    for (Pin pin: pins) {
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()));
+                    }
+                }
+
+                // Set marker adapter
+                googleMap.setInfoWindowAdapter(new MarkerAdapter(getActivity()));
+                // Set listeners
+                googleMap.setOnInfoWindowClickListener(this);
+                googleMap.setOnMapClickListener(this);
+                googleMap.setOnMapLongClickListener(this);
+
+
+                // Set target, zoom, and animation
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 10));
             }
-
-
-//            googleMap.addMarker(new MarkerOptions().position(new LatLng(28.590647, -81.304510)).title("MDVBS Faculty Offices"));
-
-            // Set marker adapter
-            googleMap.setInfoWindowAdapter(new MarkerAdapter(getActivity()));
-            // Set listeners
-            googleMap.setOnInfoWindowClickListener(this);
-            googleMap.setOnMapClickListener(this);
-            googleMap.setOnMapLongClickListener(this);
-
-
-            // Set target, zoom, and animation
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.590647, -81.304510), 10));
         }
     }
 
