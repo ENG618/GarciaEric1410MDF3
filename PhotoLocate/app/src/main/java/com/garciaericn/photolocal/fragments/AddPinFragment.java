@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.garciaericn.photolocal.R;
 import com.garciaericn.photolocal.data.Pin;
@@ -68,7 +70,17 @@ public class AddPinFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_pin, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_add_pin, container, false);
+
+        TextView latTV = (TextView) view.findViewById(R.id.lat_holder);
+        latTV.setText(String.valueOf(latLng.latitude));
+
+        TextView lngTV = (TextView) view.findViewById(R.id.lng_holder);
+        lngTV.setText(String.valueOf(latLng.longitude));
+
+
+        return view;
     }
 
     @Override

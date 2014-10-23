@@ -1,51 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TableLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin">
+        android:layout_height="wrap_content">
 
-        <TableRow>
-            <TextView android:id="@+id/new_pin_title_label"
-                android:text="@string/title_label"
-                android:layout_weight="0" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin">
 
-            <EditText android:id="@+id/new_pin_title"
-                android:layout_weight="1" />
-        </TableRow>
-        <TableRow>
-            <TextView android:id="@+id/new_pin_description_label"
-                android:text="@string/description_label"
-                android:layout_weight="0" />
+            <TableRow>
 
-            <EditText android:id="@+id/new_pin_description"
-                android:layout_weight="1"
-                android:inputType="textMultiLine" />
-        </TableRow>
-        <TableRow>
-            <TextView android:id="@+id/lat_label"
-                android:text="@string/lat_label"
-                android:layout_weight="0" />
-            <TextView android:id="@+id/lat_holder"
-                android:layout_weight="1" />
-            <TextView android:id="@+id/lng_label"
-                android:text="@string/lng_label"
-                android:layout_weight="0" />
-            <TextView android:id="@+id/lng_holder"
-                android:layout_weight="1" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/new_pin_title_label"
+                    android:text="@string/title_label"
+                    android:layout_weight="0" />
 
-    </TableLayout>
+                <EditText
+                    android:id="@+id/new_pin_title"
+                    android:layout_weight="1" />
+            </TableRow>
 
-    <ImageButton
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/layout_margin"/>
+            <TableRow>
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/new_pin_description_label"
+                    android:text="@string/description_label"
+                    android:layout_weight="0" />
+
+                <EditText
+                    android:id="@+id/new_pin_description"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/lat_label"
+                    android:text="@string/lat_label"
+                    android:layout_weight="0" />
+
+                <TextView
+                    android:id="@+id/lat_holder"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/lng_label"
+                    android:text="@string/lng_label"
+                    android:layout_weight="0" />
+
+                <TextView
+                    android:id="@+id/lng_holder"
+                    android:layout_weight="1" />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_image"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:maxHeight="250dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/layout_margin"
+            android:adjustViewBounds="true" />
+
+    </LinearLayout>
+</ScrollView>
