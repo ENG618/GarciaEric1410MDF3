@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.garciaericn.photolocal.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -16,6 +17,7 @@ public class MarkerAdapter implements GoogleMap.InfoWindowAdapter {
 
     Context mContext;
     TextView mText;
+    Pin mPin;
 
     public MarkerAdapter() {
         if (mText == null) {
@@ -38,6 +40,17 @@ public class MarkerAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoWindow(Marker marker) {
-        return null;
+        View view = View.inflate(mContext, R.layout.marker_window, null);
+
+        TextView titleTV = (TextView) view.findViewById(R.id.window_title);
+        titleTV.setText(marker.getTitle());
+
+        TextView descriptionTV = (TextView) view.findViewById(R.id.window_description);
+        descriptionTV.setText(marker.getSnippet());
+
+
+
+
+        return view;
     }
 }

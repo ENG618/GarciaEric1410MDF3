@@ -67,7 +67,7 @@ public class PhotoMapFragment extends MapFragment
                 if (pins != null) {
                     // Add a map marker
                     for (Pin pin: pins) {
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()));
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()).snippet(pin.getDescription()));
                     }
                 }
 
