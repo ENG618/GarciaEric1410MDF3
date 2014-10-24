@@ -24,5 +24,5 @@ Week 3: Building a Widget
 * [Video review](http://youtu.be/L40CC0zvs_8)
 
 Week 4: Mapping Photos
-* Due 10/25
+* [Project4: Photo Local](https://github.com/ENG618/GarciaEric1410MDF3/tree/master/PhotoLocate)
 * Video review to be posted.
