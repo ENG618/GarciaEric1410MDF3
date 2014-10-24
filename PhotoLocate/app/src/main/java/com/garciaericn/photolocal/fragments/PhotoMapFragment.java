@@ -131,7 +131,15 @@ public class PhotoMapFragment extends MapFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mListener.activityResult(requestCode, resultCode, data);
+        getActivity();
+        if (requestCode == NEW_PIN && resultCode == Activity.RESULT_OK) {
+            Bundle b = data.getExtras();
+            if (b.containsKey(Pin.PIN)) {
+                pins.add((Pin) b.getSerializable(Pin.PIN));
+            }
+        } else {
+            Toast.makeText(getActivity(), "No new pin was added", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -139,6 +147,5 @@ public class PhotoMapFragment extends MapFragment
      * Interface
      * */
     public interface OnFragmentInteractionListener {
-        public void activityResult(int requestCode, int resultCode, Intent data);
     }
 }

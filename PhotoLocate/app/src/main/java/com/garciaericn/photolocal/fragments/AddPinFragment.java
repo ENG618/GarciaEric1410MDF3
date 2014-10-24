@@ -3,27 +3,42 @@ package com.garciaericn.photolocal.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.garciaericn.photolocal.R;
+import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Full Sail University
  * Mobile Development BS
  * Created by ENG618-Mac on 10/22/14.
  */
-public class AddPinFragment extends Fragment {
+public class AddPinFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = "com.garciaericn.photolocal.fragments.AddPinFragment.TAG";
+    private static final int REQUEST_TAKE_PICTURE = 0X23412;
     private LatLng latLng;
+    private ImageView mImageView;
+    private Uri mImageUri;
     private OnFragmentInteractionListener mListener;
 
     public AddPinFragment() {
@@ -79,6 +94,11 @@ public class AddPinFragment extends Fragment {
         TextView lngTV = (TextView) view.findViewById(R.id.lng_holder);
         lngTV.setText(String.valueOf(latLng.longitude));
 
+        mImageView = (ImageView) view.findViewById(R.id.new_pin_image);
+
+        Button addImageBtn = (Button) view.findViewById(R.id.add_image_button);
+        addImageBtn.setOnClickListener(this);
+
 
         return view;
     }
@@ -89,9 +109,70 @@ public class AddPinFragment extends Fragment {
             case android.R.id.home:
                 Intent cancelIntent = new Intent();
                 break;
+            case R.id.action_save:
+                savePin();
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_image_button:
+                // TODO: Set up camera input
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                mImageUri = getImageUri();
+                if(mImageUri != null) {
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                }
+                startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+
+
+                break;
+            default:
+                Toast.makeText(getActivity(), "Add image button pressed", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private Uri getImageUri() {
+        String imageName = new SimpleDateFormat("MMddyyyy_HHmmss")
+                .format(new Date(System.currentTimeMillis()));
+        File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        // Creating our own folder in the default directory.
+        File appDir = new File(imageDir, "Photo Local");
+        appDir.mkdirs();
+        File image = new File(appDir, imageName + ".jpg");
+        try {
+            image.createNewFile();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return Uri.fromFile(image);
+    }
+
+    private void addImageToGallery(Uri imageUri) {
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(imageUri);
+        getActivity().sendBroadcast(scanIntent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getActivity();
+        if (requestCode == REQUEST_TAKE_PICTURE && resultCode != Activity.RESULT_CANCELED) {
+            if(mImageUri != null) {
+                mImageView.setImageBitmap(BitmapFactory.decodeFile(mImageUri.getPath()));
+                addImageToGallery(mImageUri);
+            } else {
+                mImageView.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+            }
+        }
     }
 
     /**
@@ -100,5 +181,6 @@ public class AddPinFragment extends Fragment {
      * */
     public interface OnFragmentInteractionListener {
         public void setHomeAsUp();
+        public void savePin(Pin pin);
     }
 }

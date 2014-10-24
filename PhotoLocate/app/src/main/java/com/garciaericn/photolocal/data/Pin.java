@@ -12,7 +12,8 @@ import java.io.Serializable;
 public class Pin implements Serializable{
     public static final long serialVersionUID = 5743257589655875125L;
 
-    public static final String LAT_LNG = "com.garciaericn.photolocal.data.LAT_LNG";
+    public static final String LAT_LNG = "com.garciaericn.photolocal.data.Pin.LAT_LNG";
+    public static final String PIN = "com.garciaericn.photolocal.data.Pin.PIN";
 
     // Object fields
     private double latitude;

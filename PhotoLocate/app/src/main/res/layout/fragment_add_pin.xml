@@ -66,13 +66,13 @@
 
         </TableLayout>
 
-        <Button
+        <Button android:id="@+id/add_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_add_image"
             android:layout_gravity="center" />
 
-        <ImageView
+        <ImageView android:id="@+id/new_pin_image"
             android:layout_width="fill_parent"
             android:layout_height="250dp"
             android:maxHeight="250dp"

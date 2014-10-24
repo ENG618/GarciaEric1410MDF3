@@ -40,7 +40,7 @@ public class AddPinActivity extends Activity implements AddPinFragment.OnFragmen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.new_pin_main, menu);
         return true;
     }
 
@@ -56,8 +56,20 @@ public class AddPinActivity extends Activity implements AddPinFragment.OnFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /**
+     * Interface Methods
+     * */
+
+     @Override
     public void setHomeAsUp() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void savePin(Pin pin) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Pin.PIN, pin);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 }

@@ -69,14 +69,4 @@ public class MainActivity extends Activity implements PhotoMapFragment.OnFragmen
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * Interface Methods
-     * */
-    @Override
-    public void activityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PhotoMapFragment.NEW_PIN && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "No pin was added to map", Toast.LENGTH_SHORT).show();
-        }
-    }
 }
