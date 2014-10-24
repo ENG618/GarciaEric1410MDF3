@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.garciaericn.photolocal.AddPinActivity;
+import com.garciaericn.photolocal.PinActivity;
 import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.MarkerAdapter;
 import com.garciaericn.photolocal.data.Pin;
@@ -100,7 +101,19 @@ public class PhotoMapFragment extends MapFragment
     @Override
     public void onInfoWindowClick(Marker marker) {
         Toast.makeText(getActivity(), marker.getTitle() + " pressed", Toast.LENGTH_SHORT).show();
+        Pin pin = null;
         // TODO: launch detail frag
+        for (int i = 0; i < pins.size(); i++) {
+            if (marker.getTitle().equals(pins.get(i).getTitle())) {
+                pin = pins.get(i);
+            }
+        }
+
+        if (pin != null) {
+            Intent detailIntent = new Intent(getActivity(), PinActivity.class);
+            detailIntent.putExtra(Pin.PIN, pin);
+            startActivity(detailIntent);
+        }
     }
 
     @Override
@@ -139,7 +152,7 @@ public class PhotoMapFragment extends MapFragment
             if (b.containsKey(Pin.PIN)) {
                 Pin newpin = (Pin) b.getSerializable(Pin.PIN);
                 pins.add(newpin);
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(newpin.getLatitude(), newpin.getLongitude())).title(newpin.getTitle()));
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(newpin.getLatitude(), newpin.getLongitude())).title(newpin.getTitle()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
 
                 DataManager mgr = DataManager.getInstance(getActivity());
                 if (mgr != null) {

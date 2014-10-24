@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/pin_title_label"
+                    android:text="@string/title_label"
+                    android:layout_weight="0" />
+
+                <EditText
+                    android:id="@+id/pin_title"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/pin_description_label"
+                    android:text="@string/description_label"
+                    android:layout_weight="0" />
+
+                <EditText
+                    android:id="@+id/pin_description"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/lat_label"
+                    android:text="@string/lat_label"
+                    android:layout_weight="0" />
+
+                <TextView
+                    android:id="@+id/lat_holder"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/lng_label"
+                    android:text="@string/lng_label"
+                    android:layout_weight="0" />
+
+                <TextView
+                    android:id="@+id/lng_holder"
+                    android:layout_weight="1" />
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageView android:id="@+id/pin_image"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:maxHeight="250dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/layout_margin"
+            android:adjustViewBounds="true" />
+
+    </LinearLayout>
+</ScrollView>

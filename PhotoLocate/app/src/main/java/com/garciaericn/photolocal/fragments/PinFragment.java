@@ -2,6 +2,8 @@ package com.garciaericn.photolocal.fragments;
 
 import android.app.Fragment;
 
+import com.garciaericn.photolocal.data.Pin;
+
 /**
  * Full Sail University
  * Mobile Development BS
@@ -13,7 +15,7 @@ public class PinFragment extends Fragment {
 
     }
 
-    public static PinFragment getInstance() {
+    public static PinFragment getInstance(Pin pin) {
         return new PinFragment();
     }
 }
