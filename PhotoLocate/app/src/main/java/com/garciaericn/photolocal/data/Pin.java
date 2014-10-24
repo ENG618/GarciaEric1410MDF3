@@ -20,29 +20,17 @@ public class Pin implements Serializable{
     private double longitude;
     private String title;
     private String description;
+    private String imageUriString;
 
     public Pin() {
 
     }
 
     public Pin(LatLng latLng, String title, String description) {
-        Pin pin = new Pin();
-
         setLatitude(latLng.latitude);
         setLongitude(latLng.longitude);
         setTitle(title);
         setDescription(description);
-    }
-
-    public Pin newPinWithPhoto(LatLng latLng, String title, String description) {
-        Pin pin = new Pin();
-
-        setLatitude(latLng.latitude);
-        setLongitude(latLng.longitude);
-        setTitle(title);
-        setDescription(description);
-
-        return pin;
     }
 
     /**
@@ -79,5 +67,13 @@ public class Pin implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUriString() {
+        return imageUriString;
+    }
+
+    public void setImageUriString(String imageUriString) {
+        this.imageUriString = imageUriString;
     }
 }

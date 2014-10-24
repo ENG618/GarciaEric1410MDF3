@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.garciaericn.photolocal.AddPinActivity;
+import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.MarkerAdapter;
 import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -135,7 +136,14 @@ public class PhotoMapFragment extends MapFragment
         if (requestCode == NEW_PIN && resultCode == Activity.RESULT_OK) {
             Bundle b = data.getExtras();
             if (b.containsKey(Pin.PIN)) {
-                pins.add((Pin) b.getSerializable(Pin.PIN));
+                Pin newpin = (Pin) b.getSerializable(Pin.PIN);
+                pins.add(newpin);
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(newpin.getLatitude(), newpin.getLongitude())).title(newpin.getTitle()));
+
+                DataManager mgr = DataManager.getInstance(getActivity());
+                if (mgr != null) {
+                    mgr.writeToDisk(pins);
+                }
             }
         } else {
             Toast.makeText(getActivity(), "No new pin was added", Toast.LENGTH_SHORT).show();

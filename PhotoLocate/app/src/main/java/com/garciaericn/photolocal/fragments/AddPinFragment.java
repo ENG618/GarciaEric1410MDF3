@@ -14,12 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.garciaericn.photolocal.R;
-import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -36,7 +36,9 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = "com.garciaericn.photolocal.fragments.AddPinFragment.TAG";
     private static final int REQUEST_TAKE_PICTURE = 0X23412;
-    private LatLng latLng;
+    private LatLng mLatLng;
+    private EditText mTitleET;
+    private EditText mDescriptionET;
     private ImageView mImageView;
     private Uri mImageUri;
     private OnFragmentInteractionListener mListener;
@@ -61,7 +63,7 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
 
         Bundle b = getArguments();
         if (b != null && b.containsKey(Pin.LAT_LNG)) {
-            this.latLng = b.getParcelable(Pin.LAT_LNG);
+            this.mLatLng = b.getParcelable(Pin.LAT_LNG);
             mListener.setHomeAsUp();
         }
     }
@@ -89,10 +91,10 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_add_pin, container, false);
 
         TextView latTV = (TextView) view.findViewById(R.id.lat_holder);
-        latTV.setText(String.valueOf(latLng.latitude));
+        latTV.setText(String.valueOf(mLatLng.latitude));
 
         TextView lngTV = (TextView) view.findViewById(R.id.lng_holder);
-        lngTV.setText(String.valueOf(latLng.longitude));
+        lngTV.setText(String.valueOf(mLatLng.longitude));
 
         mImageView = (ImageView) view.findViewById(R.id.new_pin_image);
 
@@ -101,6 +103,14 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
 
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View view = getView();
+        mTitleET = (EditText) view.findViewById(R.id.new_pin_title);
+        mDescriptionET = (EditText) view.findViewById(R.id.new_pin_description);
     }
 
     @Override
@@ -117,6 +127,13 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void savePin() {
+
+        Pin newPin = new Pin(mLatLng, mTitleET.getText().toString(), mDescriptionET.getText().toString());
+        newPin.setImageUriString(mImageUri.toString());
+        mListener.savePin(newPin);
     }
 
     @Override
