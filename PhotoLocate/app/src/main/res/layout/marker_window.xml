@@ -8,7 +8,12 @@
 
     <ImageView android:id="@+id/window_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"/>
 
     <LinearLayout
         android:orientation="vertical"

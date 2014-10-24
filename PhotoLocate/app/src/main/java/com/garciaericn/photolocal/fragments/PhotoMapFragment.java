@@ -12,6 +12,7 @@ import com.garciaericn.photolocal.data.Pin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -67,7 +68,7 @@ public class PhotoMapFragment extends MapFragment
                 if (pins != null) {
                     // Add a map marker
                     for (Pin pin: pins) {
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()).snippet(pin.getDescription()));
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(pin.getLatitude(), pin.getLongitude())).title(pin.getTitle()).snippet(pin.getImageUriString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
                     }
                 }
 

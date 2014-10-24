@@ -1,7 +1,9 @@
 package com.garciaericn.photolocal.data;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.garciaericn.photolocal.R;
@@ -42,14 +44,16 @@ public class MarkerAdapter implements GoogleMap.InfoWindowAdapter {
     public View getInfoWindow(Marker marker) {
         View view = View.inflate(mContext, R.layout.marker_window, null);
 
+        if (marker.getSnippet() != null) {
+            ImageView iconIV = (ImageView) view.findViewById(R.id.window_image);
+            iconIV.setImageURI(Uri.parse(marker.getSnippet()));
+        }
+
         TextView titleTV = (TextView) view.findViewById(R.id.window_title);
         titleTV.setText(marker.getTitle());
 
-        TextView descriptionTV = (TextView) view.findViewById(R.id.window_description);
-        descriptionTV.setText(marker.getSnippet());
-
-
-
+//        TextView descriptionTV = (TextView) view.findViewById(R.id.window_description);
+//        descriptionTV.setText(marker.getSnippet());
 
         return view;
     }
