@@ -143,24 +143,11 @@ public class PhotoMapFragment extends MapFragment
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
-        // TODO: Launch AddPinFragment, to add new marker at this point.
         Intent intent = new Intent(getActivity(), AddPinActivity.class);
         intent.putExtra(Pin.LAT_LNG, latLng);
 
         startActivityForResult(intent, NEW_PIN);
 
-//        new AlertDialog.Builder(getActivity())
-//                .setTitle("Map Clicked")
-//                .setMessage("Add new marker here?")
-//                .setNegativeButton("No", null)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        googleMap.addMarker(new MarkerOptions().position(latLng).title("New Marker"));
-//                    }
-//                })
-//                .show();
     }
 
     @Override
@@ -172,7 +159,7 @@ public class PhotoMapFragment extends MapFragment
             if (b.containsKey(Pin.PIN)) {
                 Pin newpin = (Pin) b.getSerializable(Pin.PIN);
                 pins.add(newpin);
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(newpin.getLatitude(), newpin.getLongitude())).title(newpin.getTitle()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(newpin.getLatitude(), newpin.getLongitude())).title(newpin.getTitle()).snippet(newpin.getImageUriString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
 
                 DataManager mgr = DataManager.getInstance(getActivity());
                 if (mgr != null) {

@@ -2,6 +2,7 @@ package com.garciaericn.photolocal.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,6 +43,7 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
     private ImageView mImageView;
     private Uri mImageUri;
     private OnFragmentInteractionListener mListener;
+    private Context mContext;
 
     public AddPinFragment() {
 
@@ -50,10 +51,11 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
 
     public static AddPinFragment getInstance(LatLng latLng) {
         AddPinFragment fragment = new AddPinFragment();
-        Bundle b = new Bundle();
-        b.putParcelable(Pin.LAT_LNG, latLng);
-        fragment.setArguments(b);
-
+        if (latLng != null) {
+            Bundle b = new Bundle();
+            b.putParcelable(Pin.LAT_LNG, latLng);
+            fragment.setArguments(b);
+        }
         return fragment;
     }
 
@@ -72,12 +74,15 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mContext = getActivity();
 
         Bundle b = getArguments();
         if (b != null && b.containsKey(Pin.LAT_LNG)) {
-            this.mLatLng = b.getParcelable(Pin.LAT_LNG);
-            mListener.setHomeAsUp();
+            mLatLng = b.getParcelable(Pin.LAT_LNG);
+        } else {
+            mLatLng = mListener.getCurrentLocation();
         }
+        mListener.setHomeAsUp();
     }
 
     @Override
@@ -92,16 +97,20 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_add_pin, container, false);
 
         TextView latTV = (TextView) view.findViewById(R.id.lat_holder);
-        latTV.setText(String.valueOf(mLatLng.latitude));
-
         TextView lngTV = (TextView) view.findViewById(R.id.lng_holder);
-        lngTV.setText(String.valueOf(mLatLng.longitude));
+
+        if (mLatLng != null) {
+            latTV.setText(String.valueOf(mLatLng.latitude));
+            lngTV.setText(String.valueOf(mLatLng.longitude));
+        } else {
+            latTV.setText("Updating...");
+            lngTV.setText("Updating...");
+        }
 
         mImageView = (ImageView) view.findViewById(R.id.new_pin_image);
 
         ImageButton addImageBtn = (ImageButton) view.findViewById(R.id.add_image_button);
         addImageBtn.setOnClickListener(this);
-
 
         return view;
     }
@@ -200,5 +209,6 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         public void setHomeAsUp();
         public void savePin(Pin pin);
+        public LatLng getCurrentLocation();
     }
 }
