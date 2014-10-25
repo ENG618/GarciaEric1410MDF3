@@ -11,5 +11,6 @@
     <string name="lng_label">Longitude: </string>
     <string name="button_add_image">Add Image</string>
     <string name="action_save">Save</string>
+    <string name="action_new_pin">New Pin</string>
 
 </resources>

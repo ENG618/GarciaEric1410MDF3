@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,17 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Ensure activity implements OnFragmentInteractionListener
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -65,17 +77,6 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
         if (b != null && b.containsKey(Pin.LAT_LNG)) {
             this.mLatLng = b.getParcelable(Pin.LAT_LNG);
             mListener.setHomeAsUp();
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // Ensure activity implements OnFragmentInteractionListener
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -98,7 +99,7 @@ public class AddPinFragment extends Fragment implements View.OnClickListener {
 
         mImageView = (ImageView) view.findViewById(R.id.new_pin_image);
 
-        Button addImageBtn = (Button) view.findViewById(R.id.add_image_button);
+        ImageButton addImageBtn = (ImageButton) view.findViewById(R.id.add_image_button);
         addImageBtn.setOnClickListener(this);
 
 

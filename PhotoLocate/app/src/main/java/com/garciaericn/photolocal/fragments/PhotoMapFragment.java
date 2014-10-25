@@ -3,10 +3,12 @@ package com.garciaericn.photolocal.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.garciaericn.photolocal.AddPinActivity;
 import com.garciaericn.photolocal.PinActivity;
+import com.garciaericn.photolocal.R;
 import com.garciaericn.photolocal.data.DataManager;
 import com.garciaericn.photolocal.data.MarkerAdapter;
 import com.garciaericn.photolocal.data.Pin;
@@ -51,6 +53,12 @@ public class PhotoMapFragment extends MapFragment
         fragment.setArguments(b);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -99,13 +107,25 @@ public class PhotoMapFragment extends MapFragment
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_save:
+                Intent intent = new Intent(getActivity(), AddPinActivity.class);
+
+                startActivityForResult(intent, NEW_PIN);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onInfoWindowClick(Marker marker) {
         Toast.makeText(getActivity(), marker.getTitle() + " pressed", Toast.LENGTH_SHORT).show();
         Pin pin = null;
         // TODO: launch detail frag
-        for (int i = 0; i < pins.size(); i++) {
-            if (marker.getTitle().equals(pins.get(i).getTitle())) {
-                pin = pins.get(i);
+        for (Pin checkPin : pins) {
+            if (marker.getTitle().equals(checkPin.getTitle())) {
+                pin = checkPin;
             }
         }
 
